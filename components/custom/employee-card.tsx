@@ -14,8 +14,10 @@ import { EmployeeAPIResponse } from "@/interfaces";
 
 export default function EmployeeCard({
   employee,
+  optionsBar = true,
 }: {
   employee: EmployeeAPIResponse;
+  optionsBar?: boolean;
 }) {
   const initials = employee.name
     ? employee.name.split(" ").length > 1
@@ -56,14 +58,16 @@ export default function EmployeeCard({
           <Badge variant="secondary">{employee.EmployeeContact.email}</Badge>
         </CardContent>
       </Link>
-      <CardFooter className="flex items-center justify-between">
-        <Link href="#">
-          <TrashIcon className="size-4 text-red-500" />
-        </Link>
-        <Link href={`/employee/${employee.id}/edit`}>
-          <PenIcon className="size-4" />
-        </Link>
-      </CardFooter>
+      {optionsBar && (
+        <CardFooter className="flex items-center justify-between">
+          <Link href="#">
+            <TrashIcon className="size-4 text-red-500" />
+          </Link>
+          <Link href={`/employee/${employee.id}/edit`}>
+            <PenIcon className="size-4" />
+          </Link>
+        </CardFooter>
+      )}
     </Card>
   );
 }
