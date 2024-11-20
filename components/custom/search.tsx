@@ -3,7 +3,7 @@
 import { SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Label } from "../ui/label";
+import { Label } from "@/components/ui/label";
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
