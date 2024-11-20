@@ -13,8 +13,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { toast, useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../ui/toast";
+import { useRouter } from 'next/navigation'
 
 export default function EmployeeOptions({
   id,
@@ -24,6 +25,7 @@ export default function EmployeeOptions({
   variant: "default" | "compact";
 }) {
   const { toast } = useToast();
+  const router = useRouter()
 
   const promote = (id: number) => {
     console.log(`Promoting employee ${id}`);
@@ -35,22 +37,31 @@ export default function EmployeeOptions({
     fetch(`http://localhost:8000/api/employee/${id}/promote`, {
       method: "PUT",
     })
-      .then((res) => {
-        if (!res.ok) {
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data) {
           throw new Error("Failed to promote employee");
         }
+
+        if (data.errors) {
+          console.error(data.errors);
+          throw new Error(data.message);
+        }
+
         toast({
           variant: "success",
           title: "Employee promoted",
           description: "The employee has been promoted successfully.",
         });
+
+        router.refresh()
+
       })
       .catch((err) => {
         toast({
           variant: "destructive",
           title: "Uh oh! Something went wrong.",
-          description:
-            "We couldn't promote the employee. Please try again later.",
+          description: err.message,
           action: (
             <ToastAction altText="Try again" onClick={() => promote(id)}>
               Try again

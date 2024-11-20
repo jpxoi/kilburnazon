@@ -8,11 +8,9 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { PenIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { EmployeeAPIResponse } from "@/interfaces";
 import EmployeeOptions from "./employee-options";
-import { Button } from "../ui/button";
 import EmployeeEditTrigger from "./employee-edit-trigger";
 
 export default function EmployeeCard({
@@ -63,7 +61,7 @@ export default function EmployeeCard({
       </Link>
       {optionsBar && (
         <CardFooter className="flex items-center justify-between">
-          <EmployeeEditTrigger id={employee.id} variant="compact" />
+          <EmployeeEditTrigger employee={employee} variant="compact" />
           <EmployeeOptions id={employee.id} variant="compact" />
         </CardFooter>
       )}
