@@ -11,6 +11,9 @@ import { Badge } from "@/components/ui/badge";
 import { PenIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { EmployeeAPIResponse } from "@/interfaces";
+import EmployeeOptions from "./employee-options";
+import { Button } from "../ui/button";
+import EmployeeEditTrigger from "./employee-edit-trigger";
 
 export default function EmployeeCard({
   employee,
@@ -60,12 +63,8 @@ export default function EmployeeCard({
       </Link>
       {optionsBar && (
         <CardFooter className="flex items-center justify-between">
-          <Link href="#">
-            <TrashIcon className="size-4 text-red-500" />
-          </Link>
-          <Link href={`/employee/${employee.id}/edit`}>
-            <PenIcon className="size-4" />
-          </Link>
+          <EmployeeEditTrigger id={employee.id} variant="compact" />
+          <EmployeeOptions id={employee.id} variant="compact" />
         </CardFooter>
       )}
     </Card>
