@@ -1,8 +1,9 @@
 import EmployeeCard from "@/components/custom/employee-card";
+import { BigEmployeeOptions } from "@/components/custom/employee-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmployeeAPIResponse } from "@/interfaces";
-import { ChevronLeft, MailIcon } from "lucide-react";
+import { ChevronLeft, PenIcon } from "lucide-react";
 import Link from "next/link";
 
 export default async function EmployeeDetailsPage({
@@ -31,22 +32,31 @@ export default async function EmployeeDetailsPage({
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen px-8 pt-2 pb-20 gap-4 w-full">
-      <div className="flex items-center justify-start w-full gap-2">
-        <Link href="/employee/list">
-          <Button
-            variant="outline"
-            size="xs"
-            className="flex items-center gap-2"
-          >
-            <ChevronLeft size={24} />
+      <div className="flex items-center justify-between w-full gap-4">
+        <div className="flex items-center justify-center gap-2">
+          <Link href="/employee/list">
+            <Button
+              variant="outline"
+              size="xs"
+              className="flex items-center gap-2"
+            >
+              <ChevronLeft size={24} />
+            </Button>
+          </Link>
+          <h1 className="text-xl font-bold">
+            Employee <span className="text-gray-500">#{employee.id}</span>
+          </h1>
+        </div>
+        <div className="flex items-center gap-3">
+          <Button variant="default" size="sm">
+            <PenIcon size={16} />
+            <span className="hidden md:inline">Edit</span>
           </Button>
-        </Link>
-        <h1 className="text-xl font-bold">
-          Employee <span className="text-gray-500">#{employee.id}</span>
-        </h1>
+          <BigEmployeeOptions id={employee.id} />
+        </div>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 w-full">
-        <EmployeeCard employee={employee} />
+        <EmployeeCard employee={employee} optionsBar={false} />
         <div className="lg:col-span-2 xl:col-span-3 2xl:col-span-4">
           <h2 className="text-lg font-bold">Employee Details</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
@@ -79,11 +89,8 @@ export default async function EmployeeDetailsPage({
               <div className="grid xl:grid-cols-2 gap-4 mt-2">
                 <div>
                   <p className="text-sm text-gray-500">Email Address</p>
-                  <p className="text-md flex gap-2 items-center">
+                  <p className="text-md truncate">
                     {employee.EmployeeContact.email}{" "}
-                    <a href={`mailto:${employee.EmployeeContact.email}`}>
-                      <MailIcon size={16} />
-                    </a>
                   </p>
                 </div>
                 <div>
