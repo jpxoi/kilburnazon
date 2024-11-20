@@ -33,8 +33,8 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <main>
-            <SidebarTrigger />
+          <main className="w-full">
+            <SidebarTrigger className="ml-4 mt-2" />
             {children}
           </main>
         </SidebarProvider>

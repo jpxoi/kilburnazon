@@ -1,12 +1,4 @@
-export interface EmployeeAPIResponse {
-  id: number;
-  name: string;
-  date_of_birth: string;
-  hired_date: string;
-  nin: string;
-  avatar_url?: string;
-  notes?: string;
-  status: "ACTIVE" | "TERMINATED" | "ON_LEAVE";
+export interface EmployeeAPIResponse extends SimplifiedEmployeeAPIResponse {
   EmployeeJob: EmployeeJobModel;
   EmployeeContact: EmployeeContactModel;
 }
@@ -20,10 +12,10 @@ export interface EmployeeJobModel {
     id: number;
     title: string;
     Department: {
-        id: number;
-        name: string;
-        head_id: number;
-    }
+      id: number;
+      name: string;
+      head_id: number;
+    };
   };
   location: {
     id: number;
@@ -45,4 +37,26 @@ export interface EmployeeContactModel {
   emergency_relationship?: string;
   emergency_phone?: string;
   is_primary: boolean;
+}
+
+export interface BirthdayAPIResponse {
+  past: BirthdayEmployeeAPIResponse[];
+  upcoming: BirthdayEmployeeAPIResponse[];
+}
+
+export interface SimplifiedEmployeeAPIResponse {
+  id: number;
+  name: string;
+  date_of_birth: string;
+  hired_date: string;
+  nin: string;
+  avatar_url?: string;
+  notes?: string;
+  status: "ACTIVE" | "TERMINATED" | "ON_LEAVE";
+}
+
+export interface BirthdayEmployeeAPIResponse
+  extends SimplifiedEmployeeAPIResponse {
+  this_year_birthday: string;
+  turns_age: number;
 }
