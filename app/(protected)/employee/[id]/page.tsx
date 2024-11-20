@@ -1,5 +1,6 @@
 import EmployeeCard from "@/components/custom/employee-card";
-import { BigEmployeeOptions } from "@/components/custom/employee-options";
+import EmployeeEditTrigger from "@/components/custom/employee-edit-trigger";
+import EmployeeOptions from "@/components/custom/employee-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmployeeAPIResponse } from "@/interfaces";
@@ -48,11 +49,8 @@ export default async function EmployeeDetailsPage({
           </h1>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="default" size="sm">
-            <PenIcon size={16} />
-            <span className="hidden md:inline">Edit</span>
-          </Button>
-          <BigEmployeeOptions id={employee.id} />
+          <EmployeeEditTrigger employee={employee} variant="default" />
+          <EmployeeOptions id={employee.id} variant="default" />
         </div>
       </div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8 w-full">
