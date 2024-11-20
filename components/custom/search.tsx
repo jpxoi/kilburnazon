@@ -3,6 +3,7 @@
 import { SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { Label } from "../ui/label";
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
@@ -22,9 +23,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
 
   return (
     <div className="relative flex flex-1 flex-shrink-0">
-      <label htmlFor="search" className="sr-only">
+      <Label htmlFor="search" className="sr-only">
         Search
-      </label>
+      </Label>
       <Input
         type="text"
         placeholder={placeholder}
