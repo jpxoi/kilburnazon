@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { BirthdayAPIResponse } from "@/interfaces";
 import { CakeIcon } from "lucide-react";
 
@@ -42,68 +43,85 @@ function RelativeDateFormatter(date: string) {
 
 export default async function BirthdaysPage() {
   const data = await fetch("http://localhost:8000/api/birthdays");
-  const birthdays = await data.json() as BirthdayAPIResponse;
+  const birthdays = (await data.json()) as BirthdayAPIResponse;
 
   const past_birthdays = birthdays.past;
   const upcoming_birthdays = birthdays.upcoming;
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen px-8 pt-2 pb-20 gap-4 w-full">
+    <div className="flex flex-col items-center justify-start px-8 pt-2 pb-8 gap-4 w-full">
       <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-2">
         <h1 className="text-2xl font-bold">Birthdays of the Month</h1>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-5 2xl:grid-cols-4 gap-8 w-full">
         <div className="flex flex-col gap-8 xl:col-span-3 2xl:col-span-3">
           <h2 className="text-lg font-bold">Upcoming Birthdays</h2>
-          <div className="grid xl:grid-cols-2 gap-8 w-full xl:col-span-3">
-            {upcoming_birthdays.map((birthday) => (
-              <Card
-                key={birthday.id}
-                className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
-              >
-                <div className="flex items-center gap-4">
-                  <CakeIcon size={24} />
+          <ScrollArea className="flex flex-col gap-4 w-full max-h-[80vh]">
+            <div className="grid xl:grid-cols-2 gap-8 w-full xl:col-span-3">
+              {upcoming_birthdays.map((birthday) => (
+                <Card
+                  key={birthday.id}
+                  className={`flex items-center justify-between p-4 bg-white rounded-lg drop-shadow-sm ${
+                    RelativeDateFormatter(birthday.this_year_birthday) ===
+                    "Today"
+                      ? "border-2 border-orange-400 animate-border drop-shadow-md"
+                      : ""
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <CakeIcon
+                      className={
+                        RelativeDateFormatter(birthday.this_year_birthday) ===
+                        "Today"
+                          ? "animate-pulse text-orange-600"
+                          : ""
+                      }
+                      size={24}
+                    />
+                    <div>
+                      <p className="text-md font-bold">{birthday.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {RelativeDateFormatter(birthday.this_year_birthday)}
+                      </p>
+                    </div>
+                  </div>
                   <div>
-                    <p className="text-md font-bold">{birthday.name}</p>
                     <p className="text-sm text-gray-500">
-                      {RelativeDateFormatter(birthday.this_year_birthday)}
+                      Turns {birthday.turns_age}
                     </p>
                   </div>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">
-                    Turns {birthday.turns_age}
-                  </p>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          </ScrollArea>
         </div>
         <div className="flex flex-col gap-8 xl:col-span-2 2xl:col-span-1">
           <h2 className="text-lg font-bold col-span-full">Past Birthdays</h2>
-          <div className="grid gap-8 w-full xl:col-span-2 2xl:col-span-1">
-            {past_birthdays.map((birthday) => (
-              <Card
-                key={birthday.id}
-                className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
-              >
-                <div className="flex items-center gap-4">
-                  <CakeIcon size={24} />
+          <ScrollArea className="flex flex-col gap-4 w-full max-h-[80vh]">
+            <div className="grid gap-8 w-full xl:col-span-2 2xl:col-span-1">
+              {past_birthdays.map((birthday) => (
+                <Card
+                  key={birthday.id}
+                  className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
+                >
+                  <div className="flex items-center gap-4">
+                    <CakeIcon size={24} />
+                    <div>
+                      <p className="text-md font-bold">{birthday.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {RelativeDateFormatter(birthday.this_year_birthday)}
+                      </p>
+                    </div>
+                  </div>
                   <div>
-                    <p className="text-md font-bold">{birthday.name}</p>
                     <p className="text-sm text-gray-500">
-                      {RelativeDateFormatter(birthday.this_year_birthday)}
+                      Turned {birthday.turns_age}
                     </p>
                   </div>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">
-                    Turned {birthday.turns_age}
-                  </p>
-                </div>
-              </Card>
-            ))}
-          </div>
+                </Card>
+              ))}
+            </div>
+          </ScrollArea>
         </div>
       </div>
     </div>
