@@ -1,10 +1,8 @@
 import EmployeeGrid from "@/components/custom/employee-grid";
 import NewEmployeeModal from "@/components/custom/new-employee-modal";
 import Search from "@/components/custom/search";
-import { Button } from "@/components/ui/button";
 import { EmployeeAPIResponse } from "@/interfaces";
-import { AlertCircleIcon, PlusIcon } from "lucide-react";
-import Link from "next/link";
+import { AlertCircleIcon } from "lucide-react";
 
 async function getEmployees() {
   const res = await fetch("http://localhost:8000/api/employee", {
