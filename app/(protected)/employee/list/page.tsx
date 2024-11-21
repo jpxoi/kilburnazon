@@ -1,4 +1,5 @@
 import EmployeeGrid from "@/components/custom/employee-grid";
+import NewEmployeeModal from "@/components/custom/new-employee-modal";
 import Search from "@/components/custom/search";
 import { Button } from "@/components/ui/button";
 import { EmployeeAPIResponse } from "@/interfaces";
@@ -34,12 +35,7 @@ export default async function EmployeeListPage(props: {
         <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-2">
           <h1 className="text-2xl font-bold">Employee Directory</h1>
           <div className="flex items-center gap-4">
-            <Link href="/employee/add">
-              <Button>
-                <PlusIcon size={24} />
-                Add Employee
-              </Button>
-            </Link>
+            <NewEmployeeModal />
           </div>
         </div>
         <div className="flex items-center justify-center w-full h-full gap-4">
@@ -63,12 +59,7 @@ export default async function EmployeeListPage(props: {
         <h1 className="text-2xl font-bold">Employee Directory</h1>
         <div className="flex items-center gap-4">
           <Search placeholder="Search Employees" />
-          <Link href="/employee/add">
-            <Button>
-              <PlusIcon size={24} />
-              Add Employee
-            </Button>
-          </Link>
+          <NewEmployeeModal />
         </div>
       </div>
       <EmployeeGrid employees={employees} query={query} />

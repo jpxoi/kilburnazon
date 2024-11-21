@@ -60,3 +60,19 @@ export interface BirthdayEmployeeAPIResponse
   this_year_birthday: string;
   turns_age: number;
 }
+
+export interface LocationsAPIResponse {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  postcode: string;
+  type: "OFFICE" | "DISTRIBUTION_CENTRE" | "WAREHOUSE";
+  is_active: boolean;
+}
+
+export interface JobRolesAPIResponse {
+  id: number;
+  department_id: number;
+  title: string;
+}
