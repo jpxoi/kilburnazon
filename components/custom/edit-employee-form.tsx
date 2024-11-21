@@ -25,83 +25,63 @@ import {
 import { Input } from "@/components/ui/input";
 import { CalendarIcon, Phone, User } from "lucide-react";
 import { EmployeeAPIResponse } from "@/interfaces";
+import { updateEmployee } from "@/actions/employee";
+import { useToast } from "@/hooks/use-toast";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 export default function EditEmployeeForm({
   employee,
 }: {
   employee: EmployeeAPIResponse;
 }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof EditEmployeeFormSchema>>({
     resolver: zodResolver(EditEmployeeFormSchema),
     defaultValues: {
       name: employee.name,
       date_of_birth: new Date(employee.date_of_birth),
-      hired_date: new Date(employee.hired_date),
       nin: employee.nin,
       avatar_url: employee.avatar_url || undefined,
       employee_contact: {
         email: employee.EmployeeContact.email,
         home_address: employee.EmployeeContact.home_address,
         emergency_name: employee.EmployeeContact.emergency_name || undefined,
-        emergency_relationship: employee.EmployeeContact.emergency_relationship || undefined,
+        emergency_relationship:
+          employee.EmployeeContact.emergency_relationship || undefined,
         emergency_phone: employee.EmployeeContact.emergency_phone || undefined,
       },
     },
   });
 
-  //   const submitChanges = async () => {
-  //     console.log(email);
-  //     await fetch(`http://localhost:8000/api/employee/${employee.id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         name,
-  //         avatar_url,
-  //         employee_contact: {
-  //           email: email,
-  //           home_address: address,
-  //           emergency_name,
-  //           emergency_relationship: emergency_relation,
-  //           emergency_phone,
-  //         },
-  //       }),
-  //     })
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         if (!data) {
-  //           throw new Error("Failed to update employee");
-  //         }
-
-  //         if (data.errors) {
-  //           throw new Error(data.message);
-  //         }
-
-  //         toast({
-  //           variant: "success",
-  //           title: "Employee updated",
-  //           description: "The employee details have been updated successfully.",
-  //         });
-
-  //         router.refresh()
-  //       })
-  //       .catch((err) => {
-  //         toast({
-  //           variant: "destructive",
-  //           title: "Uh oh! Something went wrong.",
-  //           description: err.message,
-  //           action: (
-  //             <ToastAction altText="Try again" onClick={() => submitChanges()}>
-  //               Try again
-  //             </ToastAction>
-  //           ),
-  //         });
-  //       });
-  //   };
-
   function handleSubmit(values: z.infer<typeof EditEmployeeFormSchema>) {
     console.log(values);
+    startTransition(() => {
+      updateEmployee(String(employee.id), values).then((data) => {
+        if (data.error) {
+          console.error(data.error);
+          toast({
+            variant: "destructive",
+            title: "Failed to update employee",
+            description: data.error,
+          });
+          return;
+        }
+
+        if (data.success) {
+          toast({
+            variant: "success",
+            title: `Updated employee ${employee.id}`,
+            description: "Employee has been updated successfully.",
+          });
+
+          router.refresh();
+        }
+      });
+    });
   }
 
   return (
@@ -163,6 +143,8 @@ export default function EditEmployeeForm({
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
+                        fromYear={1900}
+                        toDate={new Date()}
                         initialFocus
                       />
                     </PopoverContent>
@@ -285,7 +267,7 @@ export default function EditEmployeeForm({
         </div>
 
         <div className="flex col-span-full justify-end">
-          <Button className="self-end" type="submit">
+          <Button disabled={isPending} className="self-end" type="submit">
             Save
           </Button>
         </div>

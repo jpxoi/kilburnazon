@@ -34,6 +34,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { BriefcaseBusiness, CalendarIcon, Phone, User } from "lucide-react";
 import { JobRolesAPIResponse, LocationsAPIResponse } from "@/interfaces";
+import { useTransition } from "react";
+import { createEmployee } from "@/actions/employee";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+
+const eighteenYearsAgo = new Date(
+  new Date().getFullYear() - 18,
+  new Date().getMonth(),
+  new Date().getDate()
+);
 
 export default function NewEmployeeForm({
   locations,
@@ -42,6 +52,10 @@ export default function NewEmployeeForm({
   locations: LocationsAPIResponse[];
   jobRoles: JobRolesAPIResponse[];
 }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof NewEmployeeFormSchema>>({
     resolver: zodResolver(NewEmployeeFormSchema),
     defaultValues: {
@@ -68,6 +82,37 @@ export default function NewEmployeeForm({
 
   function handleSubmit(values: z.infer<typeof NewEmployeeFormSchema>) {
     console.log(values);
+    startTransition(() => {
+      createEmployee(values)
+        .then((data) => {
+          if (!data) {
+            throw new Error("There was an error creating the employee.");
+          }
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          if (data.success) {
+            console.log("Employee created successfully.");
+            toast({
+              variant: "success",
+              title: `Employee created`,
+              description: "Employee has been created successfully.",
+            });
+
+            router.refresh();
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          toast({
+            variant: "destructive",
+            title: "Failed to create employee",
+            description: err.message,
+          });
+        });
+    });
   }
 
   return (
@@ -122,12 +167,18 @@ export default function NewEmployeeForm({
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
+                        captionLayout="dropdown"
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                        disabled={(date) => {
+                          return (
+                            date > eighteenYearsAgo ||
+                            date < new Date("1900-01-01")
+                          );
+                        }}
+                        fromYear={1900}
+                        toDate={eighteenYearsAgo}
                         initialFocus
                       />
                     </PopoverContent>
@@ -162,8 +213,8 @@ export default function NewEmployeeForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    If you don&apos;t provide an avatar URL, one will be generated
-                    for you.
+                    If you don&apos;t provide an avatar URL, one will be
+                    generated for you.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -370,6 +421,8 @@ export default function NewEmployeeForm({
                         disabled={(date) =>
                           date > new Date() || date < new Date("1900-01-01")
                         }
+                        fromYear={1900}
+                        toDate={new Date()}
                         initialFocus
                       />
                     </PopoverContent>
@@ -426,7 +479,7 @@ export default function NewEmployeeForm({
         </div>
 
         <div className="flex col-span-full justify-end">
-          <Button className="self-end" type="submit">
+          <Button disabled={isPending} className="self-end" type="submit">
             Submit
           </Button>
         </div>

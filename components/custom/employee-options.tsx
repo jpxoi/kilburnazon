@@ -127,7 +127,7 @@ export default function EmployeeOptions({
               />
             </div>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => promote(id, percentage)}>
+            <AlertDialogAction disabled={isPending} onClick={() => promote(id, percentage)}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
