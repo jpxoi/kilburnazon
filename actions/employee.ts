@@ -1,6 +1,10 @@
 "use server";
 
-import { PromoteEmployeeFormSchema } from "@/schemas";
+import {
+  EditEmployeeFormSchema,
+  NewEmployeeFormSchema,
+  PromoteEmployeeFormSchema,
+} from "@/schemas";
 import { z } from "zod";
 
 export async function promoteEmployee(
@@ -36,9 +40,9 @@ export async function promoteEmployee(
 }
 
 export async function createEmployee(
-  values: z.infer<typeof PromoteEmployeeFormSchema>
+  values: z.infer<typeof NewEmployeeFormSchema>
 ) {
-  const validatedFields = PromoteEmployeeFormSchema.parse(values);
+  const validatedFields = NewEmployeeFormSchema.parse(values);
 
   if (!validatedFields) {
     return { error: "Invalid fields. Please check your input." };
@@ -50,6 +54,15 @@ export async function createEmployee(
 
   const parsedFields = { ...validatedFields, id, status };
 
+  // @ts-expect-error date_of_birth is a Date object
+  parsedFields.date_of_birth = parsedFields.date_of_birth
+    .toISOString()
+    .split("T")[0];
+  // @ts-expect-error hired_date is a Date object
+  parsedFields.hired_date = parsedFields.hired_date
+    .toISOString()
+    .split("T")[0];
+
   const res = await fetch(`http://localhost:8000/api/employee`, {
     method: "POST",
     headers: {
@@ -60,25 +73,28 @@ export async function createEmployee(
   const data = await res.json();
 
   if (data.errors) {
-    return { error: data.errors.percentage[0] };
+    return { error: "An error occurred while creating the employee." };
   }
 
   if (data.employee) {
     return { success: true };
   }
 
-  return { error: "An error occurred while promoting the employee." };
+  return { error: "An error occurred while creating the employee." };
 }
 
 export async function updateEmployee(
   id: string,
-  values: z.infer<typeof PromoteEmployeeFormSchema>
+  values: z.infer<typeof EditEmployeeFormSchema>
 ) {
-  const validatedFields = PromoteEmployeeFormSchema.parse(values);
+  const validatedFields = EditEmployeeFormSchema.parse(values);
 
   if (!validatedFields) {
     return { error: "Invalid fields. Please check your input." };
   }
+
+  validatedFields.nin = undefined;
+  validatedFields.date_of_birth = undefined;
 
   const res = await fetch(`http://localhost:8000/api/employee/${id}`, {
     method: "PUT",
@@ -89,13 +105,15 @@ export async function updateEmployee(
   });
   const data = await res.json();
 
+  console.log(data);
+
   if (data.errors) {
-    return { error: data.errors.percentage[0] };
+    return { error: "An error occurred while updating the employee." };
   }
 
   if (data.employee) {
     return { success: true };
   }
 
-  return { error: "An error occurred while promoting the employee." };
+  return { error: "An error occurred while updating the employee." };
 }

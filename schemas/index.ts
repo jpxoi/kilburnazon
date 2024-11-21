@@ -52,20 +52,10 @@ export const EditEmployeeFormSchema = z.object({
     .date()
     .refine((date) => date.getFullYear() > 1900 && date < new Date(), {
       message: "Invalid date of birth",
-    }),
-  hired_date: z.date().refine(
-    (date) => {
-      const nextWeek = new Date();
-      nextWeek.setDate(nextWeek.getDate() + 7);
-      return date.getFullYear() > 1900 && date < nextWeek;
-    },
-    {
-      message: "Invalid hired date",
-    }
-  ),
+    }).optional(),
   nin: z.string().refine((val) => /^[A-Z]{2}\d{6}[A-Z]$/.test(val), {
     message: "Invalid NIN format",
-  }),
+  }).optional(),
   avatar_url: z.string().url().optional(),
   employee_contact: z.object({
     email: z.string().email(),
