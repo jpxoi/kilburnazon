@@ -35,10 +35,10 @@ export default function EditEmployeeForm({
     resolver: zodResolver(EditEmployeeFormSchema),
     defaultValues: {
       name: employee.name,
-      dateOfBirth: new Date(employee.date_of_birth),
-      hiredDate: new Date(employee.hired_date),
+      date_of_birth: new Date(employee.date_of_birth),
+      hired_date: new Date(employee.hired_date),
       nin: employee.nin,
-      avatarURL: employee.avatar_url || undefined,
+      avatar_url: employee.avatar_url || undefined,
       employee_contact: {
         email: employee.EmployeeContact.email,
         home_address: employee.EmployeeContact.home_address,
@@ -131,7 +131,7 @@ export default function EditEmployeeForm({
             />
             <FormField
               control={form.control}
-              name="dateOfBirth"
+              name="date_of_birth"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date of Birth</FormLabel>
@@ -191,7 +191,7 @@ export default function EditEmployeeForm({
             />
             <FormField
               control={form.control}
-              name="avatarURL"
+              name="avatar_url"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Avatar URL</FormLabel>

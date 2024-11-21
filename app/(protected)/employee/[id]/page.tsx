@@ -1,5 +1,5 @@
 import EmployeeCard from "@/components/custom/employee-card";
-import EmployeeEditTrigger from "@/components/custom/employee-edit-trigger";
+import EditEmployeeModal from "@/components/custom/edit-employee-modal";
 import EmployeeOptions from "@/components/custom/employee-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -95,7 +95,7 @@ export default async function EmployeeDetailsPage({
           </h1>
         </div>
         <div className="flex items-center gap-3">
-          <EmployeeEditTrigger employee={employee} variant="default" />
+          <EditEmployeeModal employee={employee} variant="default" />
           <EmployeeOptions id={employee.id} variant="default" />
         </div>
       </div>

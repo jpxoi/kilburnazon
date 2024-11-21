@@ -46,10 +46,10 @@ export default function NewEmployeeForm({
     resolver: zodResolver(NewEmployeeFormSchema),
     defaultValues: {
       name: undefined,
-      dateOfBirth: undefined,
-      hiredDate: new Date(),
+      date_of_birth: undefined,
+      hired_date: new Date(),
       nin: undefined,
-      avatarURL: undefined,
+      avatar_url: undefined,
       employee_job: {
         location_id: undefined,
         job_role_id: undefined,
@@ -97,7 +97,7 @@ export default function NewEmployeeForm({
             />
             <FormField
               control={form.control}
-              name="dateOfBirth"
+              name="date_of_birth"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Date of Birth*</FormLabel>
@@ -151,7 +151,7 @@ export default function NewEmployeeForm({
             />
             <FormField
               control={form.control}
-              name="avatarURL"
+              name="avatar_url"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Avatar URL</FormLabel>
@@ -162,7 +162,7 @@ export default function NewEmployeeForm({
                     />
                   </FormControl>
                   <FormDescription>
-                    If you don't provide an avatar URL, one will be generated
+                    If you don&apos;t provide an avatar URL, one will be generated
                     for you.
                   </FormDescription>
                   <FormMessage />
@@ -339,7 +339,7 @@ export default function NewEmployeeForm({
             />
             <FormField
               control={form.control}
-              name="hiredDate"
+              name="hired_date"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <FormLabel>Hired Date*</FormLabel>

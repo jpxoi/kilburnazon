@@ -1,4 +1,4 @@
-import { date, z } from "zod";
+import { z } from "zod";
 
 const CONTRACT_TYPES = [
   "FULL_TIME",
@@ -48,12 +48,12 @@ export const PromoteEmployeeFormSchema = z.object({
 
 export const EditEmployeeFormSchema = z.object({
   name: z.string().min(1).max(255),
-  dateOfBirth: z
+  date_of_birth: z
     .date()
     .refine((date) => date.getFullYear() > 1900 && date < new Date(), {
       message: "Invalid date of birth",
     }),
-  hiredDate: z.date().refine(
+  hired_date: z.date().refine(
     (date) => {
       const nextWeek = new Date();
       nextWeek.setDate(nextWeek.getDate() + 7);
@@ -66,7 +66,7 @@ export const EditEmployeeFormSchema = z.object({
   nin: z.string().refine((val) => /^[A-Z]{2}\d{6}[A-Z]$/.test(val), {
     message: "Invalid NIN format",
   }),
-  avatarURL: z.string().url().optional(),
+  avatar_url: z.string().url().optional(),
   employee_contact: z.object({
     email: z.string().email(),
     home_address: z.string().min(1).max(255),
@@ -83,12 +83,12 @@ export const EditEmployeeFormSchema = z.object({
 
 export const NewEmployeeFormSchema = z.object({
   name: z.string().min(1).max(255),
-  dateOfBirth: z
+  date_of_birth: z
     .date()
     .refine((date) => date.getFullYear() > 1900 && date < new Date(), {
       message: "Invalid date of birth",
     }),
-  hiredDate: z.date().refine(
+  hired_date: z.date().refine(
     (date) => {
       const nextWeek = new Date();
       nextWeek.setDate(nextWeek.getDate() + 7);
@@ -101,7 +101,7 @@ export const NewEmployeeFormSchema = z.object({
   nin: z.string().refine((val) => /^[A-Z]{2}\d{6}[A-Z]$/.test(val), {
     message: "Invalid NIN format",
   }),
-  avatarURL: z.string().url().optional(),
+  avatar_url: z.string().url().optional(),
   employee_job: z.object({
     location_id: z.enum(LOCATION_IDS).optional(),
     salary: z.preprocess((val) => parseFloat(val as string), z.number().min(0.01)).optional(),

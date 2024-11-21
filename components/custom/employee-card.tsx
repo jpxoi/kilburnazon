@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { EmployeeAPIResponse } from "@/interfaces";
 import EmployeeOptions from "./employee-options";
-import EmployeeEditTrigger from "./employee-edit-trigger";
+import EmployeeEditTrigger from "./edit-employee-modal";
 
 export default function EmployeeCard({
   employee,
