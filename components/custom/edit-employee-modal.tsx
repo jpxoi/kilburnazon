@@ -11,7 +11,7 @@ import {
 import { EmployeeAPIResponse } from "@/interfaces";
 import EditEmployeeForm from "./edit-employee-form";
 
-export default function EmployeeEditTrigger({
+export default function EditEmployeeModal({
   employee,
   variant,
 }: {
