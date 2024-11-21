@@ -112,7 +112,7 @@ export default function EmployeeEditTrigger({
         <DialogHeader>
           <DialogTitle>Edit Employee</DialogTitle>
           <DialogDescription>
-            Make changes to the employee's details.
+            Make changes to the employee&apos;s details.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -210,7 +210,7 @@ export default function EmployeeEditTrigger({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={(e) => submitChanges()} type="submit">
+          <Button onClick={() => submitChanges()} type="submit">
             Save changes
           </Button>
         </DialogFooter>

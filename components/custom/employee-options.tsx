@@ -14,8 +14,11 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "../ui/toast";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { promoteEmployee } from "@/actions/employee";
 
 export default function EmployeeOptions({
   id,
@@ -25,62 +28,60 @@ export default function EmployeeOptions({
   variant: "default" | "compact";
 }) {
   const { toast } = useToast();
-  const router = useRouter()
+  const router = useRouter();
+  const [percentage, setPercentage] = useState(5.0);
+  const [isPending, startTransition] = useTransition();
 
-  const promote = (id: number) => {
-    console.log(`Promoting employee ${id}`);
-    toast({
-      title: "Promoting employee...",
-      description:
-        "We are promoting the employee and increasing their salary by 5%.",
+  const promote = (id: number, percentage: number) => {
+    const formattedPercentage = new Intl.NumberFormat("en-US", {
+      style: "percent",
+      minimumFractionDigits: 2,
+    }).format(percentage / 100);
+
+    startTransition(() => {
+      promoteEmployee(id.toString(), { percentage })
+        .then((data) => {
+          if (!data) {
+            throw new Error("There was an error promoting the employee.");
+          }
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          if (data.success) {
+            toast({
+              variant: "success",
+              title: `Promoted employee ${id}`,
+              description: `Employee has been promoted successfully and their salary has been increased by ${formattedPercentage}.`,
+            });
+            router.refresh();
+          }
+        })
+        .catch((err) => {
+          toast({
+            variant: "destructive",
+            title: "Failed to promote employee",
+            description: err.message,
+          });
+        });
     });
-    fetch(`http://localhost:8000/api/employee/${id}/promote`, {
-      method: "PUT",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data) {
-          throw new Error("Failed to promote employee");
-        }
-
-        if (data.errors) {
-          console.error(data.errors);
-          throw new Error(data.message);
-        }
-
-        toast({
-          variant: "success",
-          title: "Employee promoted",
-          description: "The employee has been promoted successfully.",
-        });
-
-        router.refresh()
-
-      })
-      .catch((err) => {
-        toast({
-          variant: "destructive",
-          title: "Uh oh! Something went wrong.",
-          description: err.message,
-          action: (
-            <ToastAction altText="Try again" onClick={() => promote(id)}>
-              Try again
-            </ToastAction>
-          ),
-        });
-      });
   };
 
   const terminate = (id: number) => {
     toast({
-      title: "Terminating employee...",
+      title: `Terminating employee ${id}`,
       description:
         "We are terminating the employee and removing them from the system.",
     });
   };
 
   return (
-    <div className={`flex items-center ${variant === "default" ? "gap-2" : "gap-1"}`}>
+    <div
+      className={`flex items-center ${
+        variant === "default" ? "gap-2" : "gap-1"
+      }`}
+    >
       <AlertDialog>
         <AlertDialogTrigger asChild>
           {variant === "default" ? (
@@ -98,14 +99,35 @@ export default function EmployeeOptions({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action will promote the employee and increase their salary by
-              5%. You cannot undo this action unless you manually adjust the
-              salary back to its original value in the employee's profile.
+              This action will promote the employee and increase their salary by{" "}
+              {new Intl.NumberFormat("en-US", {
+                style: "percent",
+                minimumFractionDigits: 2,
+              }).format(percentage / 100) || "5.00%"}
+              . You cannot undo this action unless you manually adjust the
+              salary back to its original value in the employee&apos;s profile.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="percentage">Increase by (%)</Label>
+              <Input
+                id="percentage"
+                type="number"
+                min={1}
+                max={100}
+                defaultValue={percentage}
+                onChange={(e) =>
+                  setPercentage(
+                    parseFloat(parseFloat(e.target.value).toFixed(2)) || 5
+                  )
+                }
+                className="w-20 p-1 border border-gray-300 rounded-md"
+                required
+              />
+            </div>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => promote(id)}>
+            <AlertDialogAction onClick={() => promote(id, percentage)}>
               Continue
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -128,9 +150,9 @@ export default function EmployeeOptions({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action will terminate the employee's contract and remove them
-              from the system. You cannot undo this action unless you manually
-              re-add the employee to the system.
+              This action will terminate the employee&apos;s contract and remove
+              them from the system. You cannot undo this action unless you
+              manually re-add the employee to the system.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

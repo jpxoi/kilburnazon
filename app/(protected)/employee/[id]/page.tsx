@@ -4,8 +4,19 @@ import EmployeeOptions from "@/components/custom/employee-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EmployeeAPIResponse } from "@/interfaces";
-import { ChevronLeft, PenIcon } from "lucide-react";
+import { AlertCircleIcon, ChevronLeft } from "lucide-react";
 import Link from "next/link";
+
+async function getEmployee(id: string) {
+  const res = await fetch(`http://localhost:8000/api/employee/${id}`);
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  return (await res.json()) as EmployeeAPIResponse;
+}
 
 export default async function EmployeeDetailsPage({
   params,
@@ -13,8 +24,43 @@ export default async function EmployeeDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const id = (await params).id;
-  const data = await fetch(`http://localhost:8000/api/employee/${id}`);
-  const employee = (await data.json()) as EmployeeAPIResponse;
+  const employee = await getEmployee(id).catch((err) => {
+    console.error(err);
+    return null;
+  });
+
+  if (!employee) {
+    return (
+      <div className="flex flex-col items-center justify-start min-h-screen px-8 pt-2 pb-20 gap-4 w-full">
+        <div className="flex items-center justify-between w-full gap-4">
+          <div className="flex items-center justify-center gap-2">
+            <Link href="/employee/list">
+              <Button
+                variant="outline"
+                size="xs"
+                className="flex items-center gap-2"
+              >
+                <ChevronLeft size={24} />
+              </Button>
+            </Link>
+            <h1 className="text-xl font-bold">
+              Employee <span className="text-gray-500">#{id}</span>
+            </h1>
+          </div>
+          <div className="flex items-center gap-3"></div>
+        </div>
+        <div className="flex items-center justify-center w-full h-full gap-4">
+          <div className="flex flex-row items-center justify-start gap-2 bg-red-200 rounded-lg p-4">
+            <AlertCircleIcon size={24} className="text-red-700" />
+            <p className="text-red-900">
+              The employee with ID <span className="font-bold">{id}</span> could
+              not be found.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const formattedSalary = employee.EmployeeJob.salary
     ? new Intl.NumberFormat("en-GB", {
@@ -32,7 +78,7 @@ export default async function EmployeeDetailsPage({
   }).format(new Date(employee.date_of_birth));
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen px-8 pt-2 pb-20 gap-4 w-full">
+    <div className="flex flex-col items-center justify-start px-8 pt-2 pb-20 gap-4 w-full">
       <div className="flex items-center justify-between w-full gap-4">
         <div className="flex items-center justify-center gap-2">
           <Link href="/employee/list">

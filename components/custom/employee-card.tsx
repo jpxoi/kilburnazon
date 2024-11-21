@@ -46,17 +46,25 @@ export default function EmployeeCard({
         </CardHeader>
         <CardContent className="flex flex-col gap-2 items-center justify-center">
           <CardTitle className="text-xl">{employee.name}</CardTitle>
-          <CardDescription>
-            {employee.EmployeeJob.job_role.title}
+          <CardDescription className="text-nowrap truncate max-w-full">
+            <span className="text-gray-500">
+              {employee.EmployeeJob.job_role.title}
+            </span>
             <span className="text-gray-500"> • </span>
-            {employee.EmployeeJob.job_role.Department.name}
+            <span className="text-gray-500">
+              {employee.EmployeeJob.job_role.Department.name}
+            </span>
           </CardDescription>
           <Avatar className="size-16">
             <AvatarImage src={avatarUrl} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <p className="text-sm text-gray-500">Joined {employee.hired_date}</p>
-          <Badge variant="secondary">{employee.EmployeeContact.email}</Badge>
+          <Badge variant="secondary" className="max-w-full">
+            <span className="text-nowrap truncate">
+              {employee.EmployeeContact.email}
+            </span>
+          </Badge>
         </CardContent>
       </Link>
       {optionsBar && (

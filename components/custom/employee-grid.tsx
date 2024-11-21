@@ -47,12 +47,12 @@ export default function EmployeeGrid({
         filteredEmployees.map((employee) => (
           <EmployeeCard key={employee.id} employee={employee} />
         ))
+      ) : query ? (
+        <p className="text-center text-gray-500 w-full col-span-full">
+          No employees found for the search query &quot;{query}&quot;.
+        </p>
       ) : (
-        <div className="col-span-full">
-          <p className="text-center text-gray-500">
-            No employees found for the search term "{query}"
-          </p>
-        </div>
+        <p className="text-center text-gray-500 w-full col-span-full">There is no employee data to display.</p>
       )}
     </div>
   );
