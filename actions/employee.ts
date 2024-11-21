@@ -34,3 +34,68 @@ export async function promoteEmployee(
 
   return { error: "An error occurred while promoting the employee." };
 }
+
+export async function createEmployee(
+  values: z.infer<typeof PromoteEmployeeFormSchema>
+) {
+  const validatedFields = PromoteEmployeeFormSchema.parse(values);
+
+  if (!validatedFields) {
+    return { error: "Invalid fields. Please check your input." };
+  }
+
+  /* Generate an employee ID 8 characters long of numbers */
+  const id = Math.floor(10000000 + Math.random() * 90000000).toString();
+  const status = "ACTIVE";
+
+  const parsedFields = { ...validatedFields, id, status };
+
+  const res = await fetch(`http://localhost:8000/api/employee`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(parsedFields),
+  });
+  const data = await res.json();
+
+  if (data.errors) {
+    return { error: data.errors.percentage[0] };
+  }
+
+  if (data.employee) {
+    return { success: true };
+  }
+
+  return { error: "An error occurred while promoting the employee." };
+}
+
+export async function updateEmployee(
+  id: string,
+  values: z.infer<typeof PromoteEmployeeFormSchema>
+) {
+  const validatedFields = PromoteEmployeeFormSchema.parse(values);
+
+  if (!validatedFields) {
+    return { error: "Invalid fields. Please check your input." };
+  }
+
+  const res = await fetch(`http://localhost:8000/api/employee/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(validatedFields),
+  });
+  const data = await res.json();
+
+  if (data.errors) {
+    return { error: data.errors.percentage[0] };
+  }
+
+  if (data.employee) {
+    return { success: true };
+  }
+
+  return { error: "An error occurred while promoting the employee." };
+}
