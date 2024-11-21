@@ -24,7 +24,7 @@ const items = [
   },
   {
     title: "Payroll",
-    url: "/payroll/list",
+    url: "/payroll",
     icon: Landmark,
   },
   {
