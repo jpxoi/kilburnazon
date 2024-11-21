@@ -38,13 +38,13 @@ export default function EditEmployeeForm({
       dateOfBirth: new Date(employee.date_of_birth),
       hiredDate: new Date(employee.hired_date),
       nin: employee.nin,
-      avatarURL: employee.avatar_url,
+      avatarURL: employee.avatar_url || undefined,
       employee_contact: {
         email: employee.EmployeeContact.email,
         home_address: employee.EmployeeContact.home_address,
-        emergency_name: employee.EmployeeContact.emergency_name,
-        emergency_relationship: employee.EmployeeContact.emergency_relationship,
-        emergency_phone: employee.EmployeeContact.emergency_phone,
+        emergency_name: employee.EmployeeContact.emergency_name || undefined,
+        emergency_relationship: employee.EmployeeContact.emergency_relationship || undefined,
+        emergency_phone: employee.EmployeeContact.emergency_phone || undefined,
       },
     },
   });
