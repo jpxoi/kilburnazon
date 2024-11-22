@@ -32,10 +32,10 @@ export default function EditEmployeeModal({
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="min-w-fit">
-        <DialogHeader>
+      <DialogContent className="max-w-fit md:min-w-[33.563rem] justify-center">
+        <DialogHeader className="max-w-60 md:max-w-3xl">
           <DialogTitle>
-            <div className="flex items-center justify-start gap-2">
+            <div className="flex items-center justify-center sm:justify-start gap-2">
               <PenBoxIcon size={20} />
               <h2 className="text-xl font-bold">Edit Employee</h2>
             </div>

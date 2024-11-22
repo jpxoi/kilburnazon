@@ -29,10 +29,10 @@ export default async function NewEmployeeModal() {
           <span className="hidden sm:inline">Add Employee</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="min-w-fit">
-        <DialogHeader>
+      <DialogContent className="max-w-fit lg:min-w-[52.625rem] justify-center">
+        <DialogHeader className="max-w-60 lg:max-w-6xl">
           <DialogTitle>
-            <div className="flex items-center justify-start gap-2">
+            <div className="flex items-center justify-center sm:justify-start gap-2">
               <PlusCircle size={24} />
               <h2 className="text-xl font-bold">Add Employee</h2>
             </div>
