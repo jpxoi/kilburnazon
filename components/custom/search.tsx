@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 
-export default function Search({ placeholder }: { placeholder: string }) {
+export default function Search({ placeholder, disabled }: { placeholder: string, disabled?: boolean }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -28,6 +28,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
       </Label>
       <Input
         type="text"
+        disabled={disabled}
         placeholder={placeholder}
         className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         onChange={(e) => handleSearch(e.target.value)}

@@ -3,20 +3,9 @@ import EditEmployeeModal from "@/components/custom/edit-employee-modal";
 import EmployeeOptions from "@/components/custom/employee-options";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { EmployeeAPIResponse } from "@/interfaces";
 import { AlertCircleIcon, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-
-async function getEmployee(id: string) {
-  const res = await fetch(`http://localhost:8000/api/employee/${id}`);
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message);
-  }
-
-  return (await res.json()) as EmployeeAPIResponse;
-}
+import { fetchEmployee } from "@/lib/fetchers";
 
 export default async function EmployeeDetailsPage({
   params,
@@ -24,7 +13,7 @@ export default async function EmployeeDetailsPage({
   params: Promise<{ id: string }>;
 }) {
   const id = (await params).id;
-  const employee = await getEmployee(id).catch((err) => {
+  const employee = await fetchEmployee(id).catch((err) => {
     console.error(err);
     return null;
   });

@@ -52,43 +52,25 @@ export interface LocationModel {
   is_active: boolean;
 }
 
-
 export interface BirthdayAPIResponse {
-  past: BirthdayEmployeeAPIResponse[];
-  upcoming: BirthdayEmployeeAPIResponse[];
-}
-
-export interface JobRoleAPIResponse extends JobRoleModel {
-  department: DepartmentModel;
-}
-
-export interface EmplooyeeJobAPIResponse extends EmployeeJobModel {
-  job_role: JobRoleAPIResponse;
-  location?: LocationModel;
+  past: EmployeeModel &
+    {
+      this_year_birthday: string;
+      turns_age: number;
+    }[];
+  upcoming: EmployeeModel &
+    {
+      this_year_birthday: string;
+      turns_age: number;
+    }[];
 }
 
 export interface EmployeeAPIResponse extends EmployeeModel {
-  employee_job: EmplooyeeJobAPIResponse;
+  employee_job: EmployeeJobModel & {
+    job_role: JobRoleModel & {
+      department: DepartmentModel;
+    };
+    location?: LocationModel;
+  };
   employee_contact: EmployeeContactModel;
-}
-
-export interface BirthdayEmployeeAPIResponse extends EmployeeModel {
-  this_year_birthday: string;
-  turns_age: number;
-}
-
-export interface LocationsAPIResponse {
-  id: number;
-  name: string;
-  address: string;
-  city: string;
-  postcode: string;
-  type: "OFFICE" | "DISTRIBUTION_CENTRE" | "WAREHOUSE";
-  is_active: boolean;
-}
-
-export interface JobRolesAPIResponse {
-  id: number;
-  department_id: number;
-  title: string;
 }

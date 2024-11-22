@@ -35,7 +35,7 @@ export default function EmployeeCardSkeleton({
           <Skeleton className="size-16 rounded-full" />
         </Avatar>
         <Skeleton className="w-32 h-5 rounded-md" />
-        <Skeleton className="w-32 h-[22px] rounded-md" />
+        <Skeleton className="w-full h-[22px] rounded-md" />
       </CardContent>
       {variant === "default" && (
         <CardFooter className="flex items-center justify-between">

@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { BriefcaseBusiness, CalendarIcon, Phone, User } from "lucide-react";
-import { JobRolesAPIResponse, LocationsAPIResponse } from "@/interfaces";
+import { JobRoleModel, LocationModel } from "@/interfaces";
 import { useTransition } from "react";
 import { createEmployee } from "@/actions/employee";
 import { useRouter } from "next/navigation";
@@ -49,8 +49,8 @@ export default function NewEmployeeForm({
   locations,
   jobRoles,
 }: {
-  locations: LocationsAPIResponse[];
-  jobRoles: JobRolesAPIResponse[];
+  locations: LocationModel[];
+  jobRoles: JobRoleModel[];
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();

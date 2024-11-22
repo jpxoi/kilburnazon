@@ -9,41 +9,15 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import NewEmployeeForm from "./new-employee-form";
-import { JobRolesAPIResponse, LocationsAPIResponse } from "@/interfaces";
-
-async function getLocations() {
-  const res = await fetch("http://localhost:8000/api/location", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message);
-  }
-
-  return (await res.json()) as LocationsAPIResponse[];
-}
-
-async function getJobRoles() {
-  const res = await fetch("http://localhost:8000/api/job-role", {
-    cache: "no-store",
-  });
-
-  if (!res.ok) {
-    const error = await res.json();
-    throw new Error(error.message);
-  }
-
-  return (await res.json()) as JobRolesAPIResponse[];
-}
+import { fetchJobRoles, fetchLocations } from "@/lib/fetchers";
 
 export default async function NewEmployeeModal() {
-  const locations = await getLocations().catch((err) => {
+  const locations = await fetchLocations().catch((err) => {
     console.error(err);
     return null;
   });
 
-  const jobRoles = await getJobRoles().catch((err) => {
+  const jobRoles = await fetchJobRoles().catch((err) => {
     console.error(err);
     return null;
   });
@@ -52,7 +26,7 @@ export default async function NewEmployeeModal() {
       <DialogTrigger asChild>
         <Button>
           <PlusIcon size={24} />
-          Add Employee
+          <span className="hidden sm:inline">Add Employee</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="min-w-fit">
