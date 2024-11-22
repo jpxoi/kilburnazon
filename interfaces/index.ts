@@ -52,17 +52,14 @@ export interface LocationModel {
   is_active: boolean;
 }
 
+export interface EmployeeBirthdayModel extends EmployeeModel {
+  this_year_birthday: string;
+  turns_age: number;
+}
+
 export interface BirthdayAPIResponse {
-  past: EmployeeModel &
-    {
-      this_year_birthday: string;
-      turns_age: number;
-    }[];
-  upcoming: EmployeeModel &
-    {
-      this_year_birthday: string;
-      turns_age: number;
-    }[];
+  past: EmployeeBirthdayModel[];
+  upcoming: EmployeeBirthdayModel[];
 }
 
 export interface EmployeeAPIResponse extends EmployeeModel {

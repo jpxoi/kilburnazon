@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { BirthdayAPIResponse } from "@/interfaces";
+import { fetchBirthdays } from "@/lib/fetchers";
 import { CakeIcon } from "lucide-react";
 
 function RelativeDateFormatter(date: string) {
@@ -42,11 +42,13 @@ function RelativeDateFormatter(date: string) {
 }
 
 export default async function BirthdaysPage() {
-  const data = await fetch("http://localhost:8000/api/birthdays");
-  const birthdays = (await data.json()) as BirthdayAPIResponse;
+  const birthdays = await fetchBirthdays().catch((err) => {
+    console.error(err);
+    return null;
+  })
 
-  const past_birthdays = birthdays.past;
-  const upcoming_birthdays = birthdays.upcoming;
+  const past_birthdays = birthdays?.past;
+  const upcoming_birthdays = birthdays?.upcoming;
 
   return (
     <div className="flex flex-col items-center justify-start px-8 pt-2 pb-8 gap-4 w-full">
@@ -58,7 +60,7 @@ export default async function BirthdaysPage() {
           <h2 className="text-lg font-bold">Upcoming Birthdays</h2>
 
           <div className="grid xl:grid-cols-2 gap-8 w-full xl:col-span-3">
-            {upcoming_birthdays.map((birthday) => (
+            {upcoming_birthdays && upcoming_birthdays.map((birthday) => (
               <Card
                 key={birthday.id}
                 className={`flex items-center justify-between p-4 bg-white rounded-lg drop-shadow-sm transition-all duration-300 hover:transform hover:drop-shadow-md hover:scale-105 ${
@@ -97,7 +99,7 @@ export default async function BirthdaysPage() {
           <h2 className="text-lg font-bold col-span-full">Past Birthdays</h2>
           <ScrollArea className="flex flex-col gap-4 w-full max-h-[80vh]">
             <div className="grid gap-8 w-full xl:col-span-2 2xl:col-span-1">
-              {past_birthdays.map((birthday) => (
+              {past_birthdays && past_birthdays.map((birthday) => (
                 <Card
                   key={birthday.id}
                   className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm"
