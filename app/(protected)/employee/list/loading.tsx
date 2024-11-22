@@ -1,4 +1,3 @@
-import Search from "@/components/custom/search";
 import EmployeeGridSkeleton from "@/components/skeleton/employee-grid-skeleton";
 import EmployeeSearchFiltersSkeleton from "@/components/skeleton/employee-search-filters-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
