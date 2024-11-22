@@ -47,12 +47,12 @@ export default function EditEmployeeForm({
       nin: employee.nin,
       avatar_url: employee.avatar_url || undefined,
       employee_contact: {
-        email: employee.EmployeeContact.email,
-        home_address: employee.EmployeeContact.home_address,
-        emergency_name: employee.EmployeeContact.emergency_name || undefined,
+        email: employee.employee_contact.email,
+        home_address: employee.employee_contact.home_address,
+        emergency_name: employee.employee_contact.emergency_name || undefined,
         emergency_relationship:
-          employee.EmployeeContact.emergency_relationship || undefined,
-        emergency_phone: employee.EmployeeContact.emergency_phone || undefined,
+          employee.employee_contact.emergency_relationship || undefined,
+        emergency_phone: employee.employee_contact.emergency_phone || undefined,
       },
     },
   });
@@ -113,7 +113,7 @@ export default function EditEmployeeForm({
               control={form.control}
               name="date_of_birth"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="flex flex-col cursor-not-allowed">
                   <FormLabel>Date of Birth</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>

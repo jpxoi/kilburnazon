@@ -1,31 +1,22 @@
-export interface EmployeeAPIResponse extends SimplifiedEmployeeAPIResponse {
-  EmployeeJob: EmployeeJobModel;
-  EmployeeContact: EmployeeContactModel;
+/* DB Models */
+export interface EmployeeModel {
+  id: number;
+  name: string;
+  date_of_birth: string;
+  hired_date: string;
+  nin: string;
+  avatar_url?: string;
+  notes?: string;
+  status: "ACTIVE" | "TERMINATED" | "ON_LEAVE";
 }
 
 export interface EmployeeJobModel {
   id: number;
-  salary: number;
+  location_id?: number;
+  salary?: number;
+  job_role_id: number;
   contract: "FULL_TIME" | "PART_TIME" | "FREELANCE";
   employee_id: number;
-  job_role: {
-    id: number;
-    title: string;
-    Department: {
-      id: number;
-      name: string;
-      head_id: number;
-    };
-  };
-  location: {
-    id: number;
-    name: string;
-    address: string;
-    city: string;
-    postcode: string;
-    type: "OFFICE" | "DISTRIBUTION_CENTRE" | "WAREHOUSE";
-    is_active: boolean;
-  };
 }
 
 export interface EmployeeContactModel {
@@ -39,24 +30,49 @@ export interface EmployeeContactModel {
   is_primary: boolean;
 }
 
+export interface JobRoleModel {
+  id: number;
+  title: string;
+  department_id: number;
+}
+
+export interface DepartmentModel {
+  id: number;
+  name: string;
+  head_id?: number;
+}
+
+export interface LocationModel {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  postcode: string;
+  type: "OFFICE" | "DISTRIBUTION_CENTRE" | "WAREHOUSE";
+  is_active: boolean;
+}
+
+
 export interface BirthdayAPIResponse {
   past: BirthdayEmployeeAPIResponse[];
   upcoming: BirthdayEmployeeAPIResponse[];
 }
 
-export interface SimplifiedEmployeeAPIResponse {
-  id: number;
-  name: string;
-  date_of_birth: string;
-  hired_date: string;
-  nin: string;
-  avatar_url?: string;
-  notes?: string;
-  status: "ACTIVE" | "TERMINATED" | "ON_LEAVE";
+export interface JobRoleAPIResponse extends JobRoleModel {
+  department: DepartmentModel;
 }
 
-export interface BirthdayEmployeeAPIResponse
-  extends SimplifiedEmployeeAPIResponse {
+export interface EmplooyeeJobAPIResponse extends EmployeeJobModel {
+  job_role: JobRoleAPIResponse;
+  location?: LocationModel;
+}
+
+export interface EmployeeAPIResponse extends EmployeeModel {
+  employee_job: EmplooyeeJobAPIResponse;
+  employee_contact: EmployeeContactModel;
+}
+
+export interface BirthdayEmployeeAPIResponse extends EmployeeModel {
   this_year_birthday: string;
   turns_age: number;
 }

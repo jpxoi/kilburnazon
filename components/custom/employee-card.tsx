@@ -48,11 +48,11 @@ export default function EmployeeCard({
           <CardTitle className="text-xl">{employee.name}</CardTitle>
           <CardDescription className="text-nowrap truncate max-w-full">
             <span className="text-gray-500">
-              {employee.EmployeeJob.job_role.title}
+              {employee.employee_job.job_role.title}
             </span>
             <span className="text-gray-500"> • </span>
             <span className="text-gray-500">
-              {employee.EmployeeJob.job_role.Department.name}
+              {employee.employee_job.job_role.department.name}
             </span>
           </CardDescription>
           <Avatar className="size-16">
@@ -62,7 +62,7 @@ export default function EmployeeCard({
           <p className="text-sm text-gray-500">Joined {employee.hired_date}</p>
           <Badge variant="secondary" className="max-w-full">
             <span className="text-nowrap truncate">
-              {employee.EmployeeContact.email}
+              {employee.employee_contact.email}
             </span>
           </Badge>
         </CardContent>

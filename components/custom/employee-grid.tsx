@@ -20,13 +20,13 @@ export default function EmployeeGrid({
         employee.name.toLowerCase().includes(lowerCaseQuery) ||
         employee.id.toString().includes(lowerCaseQuery) ||
         employee.nin.toLowerCase().includes(lowerCaseQuery) ||
-        employee.EmployeeJob.job_role.Department.name
+        employee.employee_job.job_role.department.name
           .toLowerCase()
           .includes(lowerCaseQuery) ||
-        employee.EmployeeJob.job_role.title
+        employee.employee_job.job_role.title
           .toLowerCase()
           .includes(lowerCaseQuery) ||
-        employee.EmployeeContact.email.toLowerCase().includes(lowerCaseQuery) ||
+        employee.employee_contact.email.toLowerCase().includes(lowerCaseQuery) ||
         employee.hired_date.toLowerCase().includes(lowerCaseQuery)
     );
     setFilteredEmployees(filtered);

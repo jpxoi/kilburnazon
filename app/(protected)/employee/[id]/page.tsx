@@ -62,11 +62,11 @@ export default async function EmployeeDetailsPage({
     );
   }
 
-  const formattedSalary = employee.EmployeeJob.salary
+  const formattedSalary = employee.employee_job.salary
     ? new Intl.NumberFormat("en-GB", {
         style: "currency",
         currency: "GBP",
-      }).format(employee.EmployeeJob.salary)
+      }).format(employee.employee_job.salary)
     : null;
 
   const formattedHiredDate = new Intl.DateTimeFormat("en-GB", {
@@ -134,19 +134,19 @@ export default async function EmployeeDetailsPage({
                 <div>
                   <p className="text-sm text-gray-500">Email Address</p>
                   <p className="text-md truncate">
-                    {employee.EmployeeContact.email}{" "}
+                    {employee.employee_contact.email}{" "}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Home Address</p>
                   <p className="text-md">
-                    {employee.EmployeeContact.home_address}
+                    {employee.employee_contact.home_address}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Emergency Contact</p>
                   <p className="text-md">
-                    {employee.EmployeeContact.emergency_name || (
+                    {employee.employee_contact.emergency_name || (
                       <span className="text-gray-500">N/A</span>
                     )}
                   </p>
@@ -156,7 +156,7 @@ export default async function EmployeeDetailsPage({
                     Emergency Contact Relationship
                   </p>
                   <p className="text-md">
-                    {employee.EmployeeContact.emergency_relationship || (
+                    {employee.employee_contact.emergency_relationship || (
                       <span className="text-gray-500">N/A</span>
                     )}
                   </p>
@@ -166,7 +166,7 @@ export default async function EmployeeDetailsPage({
                     Emergency Contact Number
                   </p>
                   <p className="text-md">
-                    {employee.EmployeeContact.emergency_phone || (
+                    {employee.employee_contact.emergency_phone || (
                       <span className="text-gray-500">N/A</span>
                     )}
                   </p>
@@ -180,13 +180,13 @@ export default async function EmployeeDetailsPage({
                 <div>
                   <p className="text-sm text-gray-500">Job Role</p>
                   <p className="text-md">
-                    {employee.EmployeeJob.job_role.title}
+                    {employee.employee_job.job_role.title}
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Department</p>
                   <p className="text-md">
-                    {employee.EmployeeJob.job_role.Department.name}
+                    {employee.employee_job.job_role.department.name}
                   </p>
                 </div>
                 <div>
@@ -195,7 +195,7 @@ export default async function EmployeeDetailsPage({
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Contract Type</p>
-                  <Badge>{employee.EmployeeJob.contract as string}</Badge>
+                  <Badge>{employee.employee_job.contract as string}</Badge>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Salary</p>
