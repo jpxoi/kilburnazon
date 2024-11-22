@@ -20,12 +20,10 @@ export default async function EmployeeListPage(props: {
   if (!employees) {
     return (
       <div className="flex flex-col items-center justify-start min-h-screen px-8 pt-2 pb-20 gap-4 w-full">
-        <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-2">
-          <h1 className="text-2xl font-bold">Employee Directory</h1>
-          <div className="flex items-center gap-4">
-            <NewEmployeeModal />
-          </div>
-        </div>
+      <div className="flex items-center justify-between w-full gap-2">
+        <h1 className="text-2xl font-bold">Employee Directory</h1>
+        <NewEmployeeModal />
+      </div>
         <div className="flex items-center justify-center w-full h-full gap-4">
           <div className="flex flex-row items-center justify-start gap-2 bg-red-200 rounded-lg p-4">
             <AlertCircleIcon size={24} className="text-red-700" />

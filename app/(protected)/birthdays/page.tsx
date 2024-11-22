@@ -52,8 +52,8 @@ export default async function BirthdaysPage() {
 
   return (
     <div className="flex flex-col items-center justify-start px-8 pt-2 pb-8 gap-4 w-full">
-      <div className="flex flex-col lg:flex-row items-center justify-between w-full gap-2">
-        <h1 className="text-2xl font-bold">Birthdays of the Month</h1>
+      <div className="flex items-center justify-between w-full gap-2">
+      <h1 className="text-2xl font-bold">Birthdays of the Month</h1>
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-5 2xl:grid-cols-4 gap-8 w-full">
         <div className="flex flex-col gap-8 xl:col-span-3 2xl:col-span-3">

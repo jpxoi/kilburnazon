@@ -1,7 +1,14 @@
 export default function DashboardPage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1 className="text-4xl font-bold text-center">Dashboard</h1>
+    <div className="flex flex-col items-center justify-start min-h-screen px-8 pt-2 pb-20 gap-4 w-full">
+    <div className="flex items-center justify-between w-full gap-2">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+    </div>
+      <div className="flex items-center justify-center w-full h-full gap-4">
+        <p className="text-red-900">
+          This is the dashboard page.
+        </p>
+      </div>
     </div>
   );
 }
