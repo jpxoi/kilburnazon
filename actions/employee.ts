@@ -105,8 +105,6 @@ export async function updateEmployee(
   });
   const data = await res.json();
 
-  console.log(data);
-
   if (data.errors) {
     return { error: "An error occurred while updating the employee." };
   }
@@ -116,4 +114,24 @@ export async function updateEmployee(
   }
 
   return { error: "An error occurred while updating the employee." };
+}
+
+export async function terminateEmployee(id: string) {
+  const res = await fetch(`http://localhost:8000/api/employee/${id}/terminate`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await res.json();
+
+  if (data.errors) {
+    return { error: "An error occurred while terminating the employee." };
+  }
+
+  if (data.employee) {
+    return { success: true };
+  }
+
+  return { error: "An error occurred while terminating the employee." };
 }
