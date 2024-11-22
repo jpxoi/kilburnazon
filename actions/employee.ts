@@ -7,6 +7,9 @@ import {
 } from "@/schemas";
 import { z } from "zod";
 
+const VALIDATION_ERROR_MESSAGE =
+  "Invalid fields provided. Please check your inputs and try again.";
+
 export async function promoteEmployee(
   id: string,
   values: z.infer<typeof PromoteEmployeeFormSchema>
@@ -45,7 +48,7 @@ export async function createEmployee(
   const validatedFields = NewEmployeeFormSchema.parse(values);
 
   if (!validatedFields) {
-    return { error: "Invalid fields. Please check your input." };
+    return { error: VALIDATION_ERROR_MESSAGE };
   }
 
   const status = "ACTIVE";
@@ -71,7 +74,7 @@ export async function createEmployee(
   if (data.errors) {
     console.error(data.errors);
     return {
-      error: "A validation error has been raised. Please check your input.",
+      error: VALIDATION_ERROR_MESSAGE,
     };
   }
 
@@ -89,7 +92,7 @@ export async function updateEmployee(
   const validatedFields = EditEmployeeFormSchema.parse(values);
 
   if (!validatedFields) {
-    return { error: "Invalid fields. Please check your input." };
+    return { error: VALIDATION_ERROR_MESSAGE };
   }
 
   validatedFields.nin = undefined;
@@ -107,7 +110,7 @@ export async function updateEmployee(
   if (data.errors) {
     console.error(data.errors);
     return {
-      error: "A validation error has been raised. Please check your input.",
+      error: VALIDATION_ERROR_MESSAGE,
     };
   }
 
@@ -133,7 +136,7 @@ export async function terminateEmployee(id: string) {
   if (data.errors) {
     console.error(data.errors);
     return {
-      error: "A validation error has been raised. Please check your input.",
+      error: VALIDATION_ERROR_MESSAGE,
     };
   }
 
