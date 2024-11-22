@@ -36,7 +36,7 @@ export async function promoteEmployee(
     return { success: true };
   }
 
-  return { error: "An error occurred while promoting the employee." };
+  return { error: data.error.errorInfo[2] };
 }
 
 export async function createEmployee(
@@ -48,20 +48,16 @@ export async function createEmployee(
     return { error: "Invalid fields. Please check your input." };
   }
 
-  /* Generate an employee ID 8 characters long of numbers */
-  const id = Math.floor(10000000 + Math.random() * 90000000).toString();
   const status = "ACTIVE";
 
-  const parsedFields = { ...validatedFields, id, status };
+  const parsedFields = { ...validatedFields, status };
 
   // @ts-expect-error date_of_birth is a Date object
   parsedFields.date_of_birth = parsedFields.date_of_birth
     .toISOString()
     .split("T")[0];
   // @ts-expect-error hired_date is a Date object
-  parsedFields.hired_date = parsedFields.hired_date
-    .toISOString()
-    .split("T")[0];
+  parsedFields.hired_date = parsedFields.hired_date.toISOString().split("T")[0];
 
   const res = await fetch(`http://localhost:8000/api/employee`, {
     method: "POST",
@@ -73,14 +69,17 @@ export async function createEmployee(
   const data = await res.json();
 
   if (data.errors) {
-    return { error: "An error occurred while creating the employee." };
+    console.error(data.errors);
+    return {
+      error: "A validation error has been raised. Please check your input.",
+    };
   }
 
   if (data.employee) {
     return { success: true };
   }
 
-  return { error: "An error occurred while creating the employee." };
+  return { error: data.error.errorInfo[2] };
 }
 
 export async function updateEmployee(
@@ -106,32 +105,41 @@ export async function updateEmployee(
   const data = await res.json();
 
   if (data.errors) {
-    return { error: "An error occurred while updating the employee." };
+    console.error(data.errors);
+    return {
+      error: "A validation error has been raised. Please check your input.",
+    };
   }
 
   if (data.employee) {
     return { success: true };
   }
 
-  return { error: "An error occurred while updating the employee." };
+  return { error: data.error.errorInfo[2] };
 }
 
 export async function terminateEmployee(id: string) {
-  const res = await fetch(`http://localhost:8000/api/employee/${id}/terminate`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const res = await fetch(
+    `http://localhost:8000/api/employee/${id}/terminate`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const data = await res.json();
 
   if (data.errors) {
-    return { error: "An error occurred while terminating the employee." };
+    console.error(data.errors);
+    return {
+      error: "A validation error has been raised. Please check your input.",
+    };
   }
 
   if (data.employee) {
     return { success: true };
   }
 
-  return { error: "An error occurred while terminating the employee." };
+  return { error: data.error.errorInfo[2] };
 }
