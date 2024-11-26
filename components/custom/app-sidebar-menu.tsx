@@ -33,8 +33,8 @@ const items = [
     icon: Cake,
   },
   {
-    title: "Logs",
-    url: "/logs",
+    title: "Termination Logs",
+    url: "/termination/logs",
     icon: FileClock,
   },
 ];
