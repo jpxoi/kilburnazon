@@ -71,3 +71,17 @@ export interface EmployeeAPIResponse extends EmployeeModel {
   };
   employee_contact: EmployeeContactModel;
 }
+
+export interface TerminationLogAPIResponse {
+  id: number;
+  employee_id: number;
+  employee: EmployeeModel;
+  terminated_reason: string;
+  terminated_by: string;
+  last_position_id: number;
+  job_role: JobRoleModel;
+  last_salary: number;
+  termination_timestamp: string;
+  retention_timestamp: string;
+
+}
