@@ -13,7 +13,7 @@ export default async function LogTerminationPage() {
       <div className="flex items-center justify-between w-full gap-2">
         <h1 className="text-2xl font-bold">Employee Termination Logs</h1>
       </div>
-      <div className="flex items-center justify-center w-full h-full gap-4">
+      <div className="flex items-center justify-start w-full h-full gap-4">
         <DataTable columns={columns} data={terminationLogs} />
       </div>
     </div>
