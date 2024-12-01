@@ -56,7 +56,50 @@ export async function createLeaveRequest(
     return { success: true };
   }
 
-  console.log(data)
+  console.log(data);
+
+  return { error: data.error.errorInfo[2] };
+}
+
+export async function approveLeaveRequest(id: string, body: any) {
+  console.log(body);
+  const res = await fetch(`http://localhost:8000/api/leave-request/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+
+  const data = await res.json();
+
+  if (data.leaveBalance) {
+    return { success: true };
+  }
+
+  if (data.error) {
+    return { error: data.error };
+  }
+
+  return { error: data.error.errorInfo[2] };
+}
+
+export async function rejectLeaveRequest(id: string) {
+  const res = await fetch(`http://localhost:8000/api/leave-request/${id}`, {
+    method: "DELETE",
+  });
+
+  console.log(res);
+
+  const data = await res.json();
+
+  if (data.leaveRequest) {
+    return { success: true };
+  }
+
+  if (data.error) {
+    return { error: data.error };
+  }
 
   return { error: data.error.errorInfo[2] };
 }
