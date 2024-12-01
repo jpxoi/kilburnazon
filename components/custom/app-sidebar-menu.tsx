@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Landmark, Cake, FileClock, User } from "lucide-react";
+import { Home, Landmark, Cake, FileClock, User, CalendarClock } from "lucide-react";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -21,6 +21,11 @@ const items = [
     title: "Employees",
     url: "/employee/list",
     icon: User,
+  },
+  {
+    title: "Leave Requests",
+    url: "/leave-requests",
+    icon: CalendarClock,
   },
   {
     title: "Payroll",
