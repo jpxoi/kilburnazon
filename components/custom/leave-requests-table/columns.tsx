@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  approveLeaveRequest,
+  rejectLeaveRequest,
+} from "@/actions/leave-requests";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -13,8 +17,9 @@ import {
 } from "@/components/ui/dialog";
 import { LeaveRequestAPIResponse } from "@/interfaces";
 import { ColumnDef } from "@tanstack/react-table";
-import { CheckIcon, MessageCircleIcon, Trash2Icon, XIcon } from "lucide-react";
+import { CheckIcon, MessageCircleIcon, XIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation'
 
 export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
   {
@@ -99,8 +104,8 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
     },
   },
   {
-    accessorKey: "created_at",
-    header: "Request Date",
+    accessorKey: "updated_at",
+    header: "Last Updated",
     cell: ({ row }) =>
       new Date(row.original.created_at).toLocaleString("en-GB", {
         day: "2-digit",
@@ -144,13 +149,40 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
     id: "actions",
     cell: ({ row }) => {
       const request = row.original;
+      const router = useRouter();
 
       return (
         <div className="flex items-center justify-center gap-2">
           <Button
             variant="ghost"
             className="h-8 w-8 p-0 text-green-700"
-            disabled={request.status === "APPROVED"}
+            disabled={
+              request.status === "APPROVED" || request.status === "REJECTED"
+            }
+            onClick={() =>
+              approveLeaveRequest(String(request.id), {
+                employee_id: request.employee.id,
+                leave_type_id: request.leave_type.id,
+                year: parseInt(request.start_date.split(" ")[2]),
+                total_days: request.leave_type.max_days_per_year,
+                used_days: parseInt(request.total_days.toString()),
+                approved_by: 11123211,
+              })
+                .then((data) => {
+                  if (data.success) {
+                    request.status = "APPROVED";
+                    router.refresh();
+                  }
+
+                  if (data.error) {
+                    console.error(data.error);
+                    throw new Error(data.error);
+                  }
+                })
+                .catch((error) => {
+                  alert(error.message);
+                })
+            }
           >
             <span className="sr-only">Approve</span>
             <CheckIcon className="h-4 w-4" />
@@ -159,14 +191,29 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
           <Button
             variant="ghost"
             className="h-8 w-8 p-0 text-red-700"
-            disabled={request.status === "REJECTED"}
+            disabled={
+              request.status === "REJECTED" || request.status === "APPROVED"
+            }
+            onClick={() => {
+              rejectLeaveRequest(String(request.id))
+                .then((data) => {
+                  if (data.success) {
+                    request.status = "REJECTED";
+                    router.refresh();
+                  }
+
+                  if (data.error) {
+                    console.error(data.error);
+                    throw new Error(data.error);
+                  }
+                })
+                .catch((error) => {
+                  alert(error.message);
+                });
+            }}
           >
             <span className="sr-only">Reject</span>
             <XIcon className="h-4 w-4" />
-          </Button>
-          <Button variant="ghost" className="h-8 w-8 p-0 text-gray-700">
-            <span className="sr-only">Cancel</span>
-            <Trash2Icon className="h-4 w-4" />
           </Button>
         </div>
       );
