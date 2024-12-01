@@ -21,7 +21,7 @@ export default function HeroBanner() {
   return (
     <div
       id="hero"
-      className="flex flex-col items-center justify-center gap-4 bg-primary text-white w-screen max-h-96 overflow-clip"
+      className="flex flex-col items-center justify-center gap-4 bg-primary text-white w-screen h-96 overflow-clip"
     >
       <Image
         src="https://images.unsplash.com/photo-1531973576160-7125cd663d86?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
