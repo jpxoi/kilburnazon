@@ -1,4 +1,4 @@
-import { BirthdayAPIResponse, DepartmentModel, EmployeeAPIResponse, JobRoleModel, LocationModel, TerminationLogAPIResponse } from "@/interfaces";
+import { BirthdayAPIResponse, DepartmentModel, EmployeeAPIResponse, JobRoleModel, LeaveRequestAPIResponse, LeaveRequestModel, LeaveTypeModel, LocationModel, TerminationLogAPIResponse } from "@/interfaces";
 
 export async function fetchLocations() {
   const res = await fetch("http://localhost:8000/api/location", {
@@ -37,6 +37,19 @@ export async function fetchDepartments() {
   }
 
   return (await res.json()) as DepartmentModel[];
+}
+
+export async function fetchLeaveTypes() {
+  const res = await fetch("http://localhost:8000/api/leave-type", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  return (await res.json()) as LeaveTypeModel[];
 }
 
 export async function fetchEmployees() {
@@ -89,4 +102,17 @@ export async function fetchTerminationLogs() {
   }
 
   return (await res.json()) as TerminationLogAPIResponse[];
+}
+
+export async function fetchLeaveRequests() {
+  const res = await fetch("http://localhost:8000/api/leave-request", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  return (await res.json()) as LeaveRequestAPIResponse[];
 }

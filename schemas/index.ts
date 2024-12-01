@@ -38,6 +38,12 @@ const JOB_ROLE_IDS = [
   "5002",
   "5003",
 ] as const;
+const LEAVE_TYPE_IDS = [
+  "1",
+  "2",
+  "3",
+  "4",
+] as const;
 
 export const PromoteEmployeeFormSchema = z.object({
   percentage: z.preprocess(
@@ -110,4 +116,27 @@ export const NewEmployeeFormSchema = z.object({
       })
       .optional(),
   }),
+});
+
+export const NewLeaveRequestFormSchema = z.object({
+  employee_id: z.string(),
+  leave_type_id: z.enum(LEAVE_TYPE_IDS),
+  start_date: z.date().refine(
+    (date) => date >= new Date(),
+    { message: "Invalid start date" }
+  ),
+  end_date: z.date().refine(
+    (date) => date >= new Date(),
+    { message: "Invalid end date" }
+  ),
+  status: z.enum(["PENDING", "APPROVED", "REJECTED", "CANCELLED"]),
+  comments: z.string().optional(),
+}).refine(
+  (data) => data.start_date <= data.end_date,
+  { message: "End date must be after start date" }
+)
+
+export const EditLeaveRequestFormSchema = z.object({
+  status: z.enum(["PENDING", "APPROVED", "REJECTED", "CANCELLED"]),
+  comments: z.string().optional(),
 });

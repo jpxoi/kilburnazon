@@ -85,3 +85,30 @@ export interface TerminationLogAPIResponse {
   retention_timestamp: string;
 
 }
+
+export interface LeaveTypeModel {
+  id: number;
+  name: string;
+  description: string;
+  paid: boolean;
+  max_days_per_year: number;
+}
+
+export interface LeaveRequestModel {
+  id: number;
+  employee_id: number;
+  leave_type_id: number;
+  start_date: string;
+  end_date: string;
+  comments: string;
+  status: "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+  approved_by?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LeaveRequestAPIResponse extends LeaveRequestModel {
+  employee: EmployeeModel;
+  leave_type: LeaveTypeModel;
+  total_days: number;
+}
