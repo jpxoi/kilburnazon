@@ -19,7 +19,8 @@ import { LeaveRequestAPIResponse } from "@/interfaces";
 import { ColumnDef } from "@tanstack/react-table";
 import { CheckIcon, MessageCircleIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
   {
@@ -150,6 +151,7 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
     cell: ({ row }) => {
       const request = row.original;
       const router = useRouter();
+      const { toast } = useToast();
 
       return (
         <div className="flex items-center justify-center gap-2">
@@ -180,7 +182,11 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
                   }
                 })
                 .catch((error) => {
-                  alert(error.message);
+                  toast({
+                    title: "Error",
+                    description: error.message,
+                    variant: "destructive",
+                  });
                 })
             }
           >
@@ -208,7 +214,11 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
                   }
                 })
                 .catch((error) => {
-                  alert(error.message);
+                  toast({
+                    title: "Error",
+                    description: error.message,
+                    variant: "destructive",
+                  });
                 });
             }}
           >
