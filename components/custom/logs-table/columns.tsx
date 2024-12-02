@@ -61,8 +61,9 @@ export const columns: ColumnDef<TerminationLogAPIResponse>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => console.log("Delete Inmediatly")}>
-              Delete Inmediatly
+            <DropdownMenuItem onClick={() => console.log(`Deleting Entry ${row.original.id}`)}>
+              <TrashIcon className="h-4 w-4" />
+              <span>Delete Inmediatly</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
