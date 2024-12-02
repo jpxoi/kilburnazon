@@ -1,4 +1,4 @@
-import { BirthdayAPIResponse, DepartmentModel, EmployeeAPIResponse, JobRoleModel, LeaveRequestAPIResponse, LeaveRequestModel, LeaveTypeModel, LocationModel, TerminationLogAPIResponse } from "@/interfaces";
+import { BirthdayAPIResponse, DepartmentModel, EmployeeAPIResponse, JobRoleModel, LeaveRequestAPIResponse, LeaveTypeModel, LocationModel, TerminationLogAPIResponse } from "@/interfaces";
 
 export async function fetchLocations() {
   const res = await fetch("http://localhost:8000/api/location", {
