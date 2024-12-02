@@ -1,7 +1,7 @@
 "use client";
 
 import { EmployeeAPIResponse } from "@/interfaces";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import EmployeeCard from "@/components/custom/employee-card";
 
 export default function EmployeeGrid({
@@ -13,9 +13,9 @@ export default function EmployeeGrid({
 }) {
   const [filteredEmployees, setFilteredEmployees] = useState(employees);
 
-  const handleSearch = (query: string) => {
+  const handleSearch = useCallback((query: string) => {
     const lowerCaseQuery = query.toLowerCase();
-    const filtered = filteredEmployees.filter(
+    const filtered = employees.filter(
       (employee) =>
         employee.name.toLowerCase().includes(lowerCaseQuery) ||
         employee.id.toString().includes(lowerCaseQuery) ||
@@ -32,7 +32,7 @@ export default function EmployeeGrid({
         employee.hired_date.toLowerCase().includes(lowerCaseQuery)
     );
     setFilteredEmployees(filtered);
-  };
+  }, [employees]);
 
   useEffect(() => {
     if (!query) {
@@ -41,7 +41,7 @@ export default function EmployeeGrid({
     }
 
     handleSearch(query);
-  }, [query, employees]);
+  }, [query, employees, handleSearch]);
 
   return (
     <div className="grid grid-cols-1 gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 w-full">
