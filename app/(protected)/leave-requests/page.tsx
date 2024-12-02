@@ -3,7 +3,8 @@ import { columns } from "@/components/custom/leave-requests-table/columns";
 import { fetchLeaveRequests } from "@/lib/fetchers";
 
 export default async function LeaveRequestsPage() {
-  const leaveRequests = await fetchLeaveRequests().catch((error) => {
+  const leaveRequests = await fetchLeaveRequests().catch((err) => {
+    console.error(err);
     return [];
   });
 
