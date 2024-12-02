@@ -45,7 +45,7 @@ export default function LocationFilter({
       params.delete("location");
     }
     replace(`${pathname}?${params.toString()}`);
-  }, [selectedLocation]);
+  }, [pathname, replace, searchParams, selectedLocation]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

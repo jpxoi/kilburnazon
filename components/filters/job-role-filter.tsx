@@ -46,7 +46,7 @@ export default function JobRoleFilter({
       params.delete("jobRole");
     }
     replace(`${pathname}?${params.toString()}`);
-  }, [selectedJobRole]);
+  }, [pathname, replace, searchParams, selectedJobRole]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

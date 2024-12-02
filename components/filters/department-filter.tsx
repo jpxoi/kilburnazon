@@ -45,7 +45,7 @@ export default function DepartmentFilter({
       params.delete("department");
     }
     replace(`${pathname}?${params.toString()}`);
-  }, [selectedDepartment]);
+  }, [selectedDepartment, searchParams, pathname, replace]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
