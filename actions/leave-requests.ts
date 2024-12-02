@@ -56,13 +56,10 @@ export async function createLeaveRequest(
     return { success: true };
   }
 
-  console.log(data);
-
   return { error: data.error.errorInfo[2] };
 }
 
 export async function approveLeaveRequest(id: string, body: any) {
-  console.log(body);
   const res = await fetch(`http://localhost:8000/api/leave-request/${id}`, {
     method: "PATCH",
     headers: {
@@ -88,8 +85,6 @@ export async function rejectLeaveRequest(id: string) {
   const res = await fetch(`http://localhost:8000/api/leave-request/${id}`, {
     method: "DELETE",
   });
-
-  console.log(res);
 
   const data = await res.json();
 

@@ -4,7 +4,6 @@ import { fetchLeaveRequests } from "@/lib/fetchers";
 
 export default async function LeaveRequestsPage() {
   const leaveRequests = await fetchLeaveRequests().catch((error) => {
-    console.error(error);
     return [];
   });
 

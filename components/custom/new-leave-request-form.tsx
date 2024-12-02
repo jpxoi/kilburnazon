@@ -66,7 +66,6 @@ export default function NewLeaveRequestForm({
   });
 
   function handleSubmit(values: z.infer<typeof NewLeaveRequestFormSchema>) {
-    console.log(values);
     startTransition(() => {
         createLeaveRequest(values)
         .then((data) => {
@@ -79,7 +78,6 @@ export default function NewLeaveRequestForm({
           }
 
           if (data.success) {
-            console.log("Leave request created successfully");
             toast({
               variant: "success",
               title: `Leave Request Created`,
@@ -90,7 +88,6 @@ export default function NewLeaveRequestForm({
           }
         })
         .catch((err) => {
-          console.error(err);
           toast({
             variant: "destructive",
             title: "Failed to create leave request",

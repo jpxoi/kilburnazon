@@ -177,7 +177,6 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
                   }
 
                   if (data.error) {
-                    console.error(data.error);
                     throw new Error(data.error);
                   }
                 })
@@ -209,7 +208,6 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
                   }
 
                   if (data.error) {
-                    console.error(data.error);
                     throw new Error(data.error);
                   }
                 })
