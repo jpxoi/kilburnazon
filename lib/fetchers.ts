@@ -7,6 +7,7 @@ import {
   LeaveTypeModel,
   LocationModel,
   PayrollReportAPIResponse,
+  PayrollReportPeriod,
   PayrollSummaryModel,
   TerminationLogAPIResponse,
 } from "@/interfaces";
@@ -154,28 +155,100 @@ export async function fetchPayrollReport(
 }
 
 export async function fetchPayrollEntries(
-  period:
-    | "this_month"
-    | "last_month"
-    | "this_year"
-    | "last_year"
-    | "this_quarter"
-    | "last_quarter"
-    | "last_30_days"
-    | "last_90_days",
+  period: PayrollReportPeriod,
   department_id?: number
 ) {
-  const res = await fetchPayrollReport(
-    "2024-10-01",
-    "2024-10-31",
-    department_id
-  );
+  const { start_date, end_date } = getPayrollPeriod(period);
+  console.log(start_date, end_date);
+  const res = await fetchPayrollReport(start_date, end_date, department_id);
 
   return res.data || [];
 }
 
-export async function fetchPayrollSummary() {
-  const res = await fetchPayrollReport("2024-10-01", "2024-10-31");
+export async function fetchPayrollSummary(
+  period: PayrollReportPeriod,
+  department_id?: number
+) {
+  const { start_date, end_date } = getPayrollPeriod(period);
+  const res = await fetchPayrollReport(start_date, end_date, department_id);
 
   return res.summary as PayrollSummaryModel;
+}
+
+export function getPayrollPeriod(period: PayrollReportPeriod) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+
+  const getLastDayOfMonth = (year: number, month: number) => {
+    return new Date(year, month, 0).getDate();
+  };
+
+  switch (period) {
+    case "this_month":
+      return {
+        start_date: `${year}-${month.toString().padStart(2, "0")}-01`,
+        end_date: `${year}-${month
+          .toString()
+          .padStart(2, "0")}-${getLastDayOfMonth(year, month)}`,
+      };
+    case "last_month":
+      return {
+        start_date: `${year}-${(month - 1).toString().padStart(2, "0")}-01`,
+        end_date: `${year}-${(month - 1)
+          .toString()
+          .padStart(2, "0")}-${getLastDayOfMonth(year, month - 1)}`,
+      };
+    case "this_year":
+      return {
+        start_date: `${year}-01-01`,
+        end_date: `${year}-12-31`,
+      };
+    case "last_year":
+      return {
+        start_date: `${year - 1}-01-01`,
+        end_date: `${year - 1}-12-31`,
+      };
+    case "this_quarter":
+      const startMonthThisQuarter = Math.floor((month - 1) / 3) * 3 + 1;
+      const endMonthThisQuarter = startMonthThisQuarter + 2;
+      return {
+        start_date: `${year}-${startMonthThisQuarter
+          .toString()
+          .padStart(2, "0")}-01`,
+        end_date: `${year}-${endMonthThisQuarter
+          .toString()
+          .padStart(2, "0")}-${getLastDayOfMonth(year, endMonthThisQuarter)}`,
+      };
+    case "last_quarter":
+      const startMonthLastQuarter = Math.floor((month - 1) / 3) * 3 - 2;
+      const endMonthLastQuarter = startMonthLastQuarter + 2;
+      return {
+        start_date: `${year}-${startMonthLastQuarter
+          .toString()
+          .padStart(2, "0")}-01`,
+        end_date: `${year}-${endMonthLastQuarter
+          .toString()
+          .padStart(2, "0")}-${getLastDayOfMonth(year, endMonthLastQuarter)}`,
+      };
+    case "last_30_days":
+      const last30Days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      return {
+        start_date: last30Days.toISOString().split("T")[0],
+        end_date: now.toISOString().split("T")[0],
+      };
+    case "last_90_days":
+      const last90Days = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+      return {
+        start_date: last90Days.toISOString().split("T")[0],
+        end_date: now.toISOString().split("T")[0],
+      };
+    default:
+      return {
+        start_date: `${year}-${month.toString().padStart(2, "0")}-01`,
+        end_date: `${year}-${month
+          .toString()
+          .padStart(2, "0")}-${getLastDayOfMonth(year, month)}`,
+      };
+  }
 }
