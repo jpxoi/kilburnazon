@@ -1,4 +1,15 @@
-import { BirthdayAPIResponse, DepartmentModel, EmployeeAPIResponse, JobRoleModel, LeaveRequestAPIResponse, LeaveTypeModel, LocationModel, TerminationLogAPIResponse } from "@/interfaces";
+import {
+  BirthdayAPIResponse,
+  DepartmentModel,
+  EmployeeAPIResponse,
+  JobRoleModel,
+  LeaveRequestAPIResponse,
+  LeaveTypeModel,
+  LocationModel,
+  PayrollReportAPIResponse,
+  PayrollSummaryModel,
+  TerminationLogAPIResponse,
+} from "@/interfaces";
 
 export async function fetchLocations() {
   const res = await fetch("http://localhost:8000/api/location", {
@@ -115,4 +126,56 @@ export async function fetchLeaveRequests() {
   }
 
   return (await res.json()) as LeaveRequestAPIResponse[];
+}
+
+export async function fetchPayrollReport(
+  start_date: string,
+  end_date: string,
+  department_id?: number
+) {
+  const query = new URLSearchParams({
+    start_date,
+    end_date,
+    department_id: department_id ? String(department_id) : "",
+  });
+  const res = await fetch(
+    `http://localhost:8000/api/payroll/report?${query.toString()}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  return (await res.json()) as PayrollReportAPIResponse;
+}
+
+export async function fetchPayrollEntries(
+  period:
+    | "this_month"
+    | "last_month"
+    | "this_year"
+    | "last_year"
+    | "this_quarter"
+    | "last_quarter"
+    | "last_30_days"
+    | "last_90_days",
+  department_id?: number
+) {
+  const res = await fetchPayrollReport(
+    "2024-10-01",
+    "2024-10-31",
+    department_id
+  );
+
+  return res.data || [];
+}
+
+export async function fetchPayrollSummary() {
+  const res = await fetchPayrollReport("2024-10-01", "2024-10-31");
+
+  return res.summary as PayrollSummaryModel;
 }

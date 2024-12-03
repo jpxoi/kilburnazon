@@ -1,3 +1,5 @@
+import { UUID } from "crypto";
+
 /* DB Models */
 export interface EmployeeModel {
   id: number;
@@ -83,7 +85,6 @@ export interface TerminationLogAPIResponse {
   last_salary: number;
   termination_timestamp: string;
   retention_timestamp: string;
-
 }
 
 export interface LeaveTypeModel {
@@ -111,4 +112,47 @@ export interface LeaveRequestAPIResponse extends LeaveRequestModel {
   employee: EmployeeModel;
   leave_type: LeaveTypeModel;
   total_days: number;
+}
+
+export interface PayrollPeriodModel {
+  id: UUID;
+  start_date: string;
+  end_date: string;
+  status: "DRAFT" | "PROCESSING" | "COMPLETED" | "CANCELLED";
+  created_at: string;
+}
+
+export interface PayrollEntryModel {
+  id: number;
+  employee_id: number;
+  period_id: UUID;
+  base_salary: number;
+  bonus: number;
+  overtime: number;
+  tax_deduction: number;
+  insurance_deduction: number;
+  retirement_contribution: number;
+  other_deductions: number;
+  net_pay: number;
+  processed_at: string;
+  employee: EmployeeModel & {
+    employee_job: EmployeeJobModel & {
+      job_role: JobRoleModel & {
+        department: DepartmentModel;
+      };
+    };
+  };
+  payroll_period: PayrollPeriodModel;
+}
+
+export interface PayrollSummaryModel {
+  total_payroll: number;
+  average_salary: number;
+  total_retentions: number;
+  average_retentions: number;
+}
+
+export interface PayrollReportAPIResponse {
+  data: PayrollEntryModel[];
+  summary: PayrollSummaryModel;
 }
