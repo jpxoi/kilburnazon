@@ -130,17 +130,17 @@ export const columns: ColumnDef<LeaveRequestAPIResponse>[] = [
           );
         case "APPROVED":
           return (
-            <Badge className="bg-emerald-600 hover:bg-emerald-600">
+            <Badge className="bg-emerald-600 hover:bg-emerald-700">
               Approved
             </Badge>
           );
         case "REJECTED":
           return (
-            <Badge className="bg-red-600 hover:bg-red-600">Rejected</Badge>
+            <Badge className="bg-red-600 hover:bg-red-700">Rejected</Badge>
           );
         case "CANCELLED":
           return (
-            <Badge className="bg-gray-600 hover:bg-gray-600">Cancelled</Badge>
+            <Badge className="bg-gray-600 hover:bg-gray-700">Cancelled</Badge>
           );
         default:
           return null;
