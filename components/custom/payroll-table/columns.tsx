@@ -10,7 +10,7 @@ import Link from "next/link";
 export const columns: ColumnDef<PayrollEntryModel>[] = [
   {
     accessorKey: "id",
-    header: "Payroll ID",
+    header: "ID",
     cell: ({ row }) => <Badge>{row.original.id}</Badge>,
   },
   {
@@ -46,6 +46,24 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
     },
   },
   {
+    accessorKey: "employee.employee_job.job_role.department.name",
+    header: "Department",
+    cell: ({ row }) => (
+      <Badge variant="secondary">
+        {row.original.employee.employee_job.job_role.department.name}
+      </Badge>
+    ),
+  },
+  {
+    accessorKey: "employee.employee_job.job_role.title",
+    header: "Job Title",
+    cell: ({ row }) => (
+      <Badge variant="outline">
+        {row.original.employee.employee_job.job_role.title}
+      </Badge>
+    ),
+  },
+  {
     accessorKey: "base_salary",
     header: "Base Salary",
     cell: ({ row }) => {
@@ -74,26 +92,6 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
         <span
           className={
             row.original.bonus > 0 ? "text-emerald-700" : "text-gray-500"
-          }
-        >
-          {formatted === "£0.00" ? "-" : formatted}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: "overtime",
-    header: "Overtime",
-    cell: ({ row }) => {
-      const formatted = new Intl.NumberFormat("en-GB", {
-        style: "currency",
-        currency: "GBP",
-      }).format(row.original.overtime);
-
-      return (
-        <span
-          className={
-            row.original.overtime > 0 ? "text-emerald-700" : "text-gray-500"
           }
         >
           {formatted === "£0.00" ? "-" : formatted}
@@ -145,7 +143,7 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
   },
   {
     accessorKey: "retirement_contribution",
-    header: "Retirement Cont...",
+    header: "Retirement",
     cell: ({ row }) => {
       const formatted = new Intl.NumberFormat("en-GB", {
         style: "currency",
@@ -158,26 +156,6 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
             row.original.retirement_contribution > 0
               ? "text-red-700"
               : "text-gray-500"
-          }
-        >
-          {formatted === "-£0.00" ? "-" : formatted}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: "other_deductions",
-    header: "Other Deductions",
-    cell: ({ row }) => {
-      const formatted = new Intl.NumberFormat("en-GB", {
-        style: "currency",
-        currency: "GBP",
-      }).format(row.original.other_deductions * -1);
-
-      return (
-        <span
-          className={
-            row.original.other_deductions > 0 ? "text-red-700" : "text-gray-500"
           }
         >
           {formatted === "-£0.00" ? "-" : formatted}
