@@ -156,3 +156,13 @@ export interface PayrollReportAPIResponse {
   data: PayrollEntryModel[];
   summary: PayrollSummaryModel;
 }
+
+export type PayrollReportPeriod =
+  | "this_month"
+  | "last_month"
+  | "this_year"
+  | "last_year"
+  | "this_quarter"
+  | "last_quarter"
+  | "last_30_days"
+  | "last_90_days";
