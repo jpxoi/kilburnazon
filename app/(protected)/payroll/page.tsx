@@ -2,7 +2,6 @@ import { columns } from "@/components/custom/payroll-table/columns";
 import { DataTable } from "@/components/custom/payroll-table/data-table";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -11,10 +10,12 @@ import { fetchPayrollEntries, fetchPayrollSummary } from "@/lib/fetchers";
 import { Suspense } from "react";
 
 export default async function PayrollListPage() {
-  const payrollEntries = await fetchPayrollEntries().catch((err) => {
-    console.error(err);
-    return [];
-  });
+  const payrollEntries = await fetchPayrollEntries("this_month").catch(
+    (err) => {
+      console.error(err);
+      return [];
+    }
+  );
 
   const payrollSummary = await fetchPayrollSummary().catch((err) => {
     console.error(err);
@@ -39,27 +40,50 @@ export default async function PayrollListPage() {
           <Card className="w-full">
             <CardHeader>
               <CardDescription>Total Payroll</CardDescription>
-              <CardTitle>{payrollSummary.total_payroll}</CardTitle>
+              <CardTitle>
+                {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(payrollSummary.total_payroll)}
+              </CardTitle>
             </CardHeader>
           </Card>
           <Card className="w-full">
             <CardHeader>
               <CardDescription>Total Retentions</CardDescription>
-              <CardTitle>{payrollSummary.total_retentions}</CardTitle>
+              <CardTitle>
+                {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(payrollSummary.total_retentions)}
+              </CardTitle>
             </CardHeader>
           </Card>
           <Card className="w-full">
             <CardHeader>
               <CardDescription>Average Salary</CardDescription>
-              <CardTitle>{payrollSummary.average_salary}</CardTitle>
+              <CardTitle>
+                {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(payrollSummary.average_salary)}
+              </CardTitle>
             </CardHeader>
           </Card>
           <Card className="w-full">
             <CardHeader>
               <CardDescription>Average Retentions</CardDescription>
-              <CardTitle>{payrollSummary.average_retentions}</CardTitle>
+              <CardTitle>
+                {new Intl.NumberFormat("en-GB", {
+                  style: "currency",
+                  currency: "GBP",
+                }).format(payrollSummary.average_retentions)}
+              </CardTitle>
             </CardHeader>
           </Card>
+        </div>
+        <div className="flex items-center justify-between w-full gap-2">
+          <h2 className="text-lg font-bold">Payroll Entries</h2>
         </div>
         <Suspense fallback={<div>Loading...</div>}>
           <DataTable columns={columns} data={payrollEntries} />
