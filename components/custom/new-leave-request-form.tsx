@@ -84,7 +84,7 @@ export default function NewLeaveRequestForm({
               description: "The leave request has been created successfully.",
             });
 
-            router.refresh();
+            router.push("/request-leave/success");
           }
         })
         .catch((err) => {
