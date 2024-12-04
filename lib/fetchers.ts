@@ -100,6 +100,9 @@ export async function fetchBirthdays() {
     throw new Error(error.message);
   }
 
+  // Simulate a delay
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
+
   return (await res.json()) as BirthdayAPIResponse;
 }
 
@@ -112,6 +115,8 @@ export async function fetchTerminationLogs() {
     const error = await res.json();
     throw new Error(error.message);
   }
+
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return (await res.json()) as TerminationLogAPIResponse[];
 }
@@ -150,6 +155,9 @@ export async function fetchPayrollReport(
     const error = await res.json();
     throw new Error(error.message);
   }
+
+  // Simulate a delay
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
 
   return (await res.json()) as PayrollReportAPIResponse;
 }
