@@ -50,7 +50,9 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
     header: "Department",
     cell: ({ row }) => (
       <Badge variant="secondary">
-        {row.original.employee.employee_job.job_role.department.name}
+        <span className="truncate max-w-20">
+          {row.original.employee.employee_job.job_role.department.name}
+        </span>
       </Badge>
     ),
   },
@@ -59,7 +61,9 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
     header: "Job Title",
     cell: ({ row }) => (
       <Badge variant="outline">
-        {row.original.employee.employee_job.job_role.title}
+        <span className="truncate max-w-28">
+          {row.original.employee.employee_job.job_role.title}
+        </span>
       </Badge>
     ),
   },
