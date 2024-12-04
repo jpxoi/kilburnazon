@@ -31,8 +31,6 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   })
 
-  console.log(table.getRowModel().rows?.length)
-
   return (
     <div className="rounded-md border w-full">
       <Table>
