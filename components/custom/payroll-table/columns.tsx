@@ -182,17 +182,21 @@ export const columns: ColumnDef<PayrollEntryModel>[] = [
   {
     accessorKey: "payroll_period.start_date",
     header: "Payroll Period",
-    cell: ({ row }) =>
-      new Date(row.original.payroll_period.start_date).toLocaleString("en-GB", {
-        month: "short",
-        year: "numeric",
-      }),
+    cell: ({ row }) => {
+      const startDate = row.original.payroll_period?.start_date;
+      return startDate
+        ? new Date(startDate).toLocaleString("en-GB", {
+            month: "short",
+            year: "numeric",
+          })
+        : "Unknown";
+    },
   },
   {
     accessorKey: "payroll_period.status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.original.payroll_period.status;
+      const status = row.original.payroll_period?.status || "UNKNOWN";
 
       switch (status) {
         case "DRAFT":
