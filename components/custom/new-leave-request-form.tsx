@@ -56,7 +56,7 @@ export default function NewLeaveRequestForm({
   const form = useForm<z.infer<typeof NewLeaveRequestFormSchema>>({
     resolver: zodResolver(NewLeaveRequestFormSchema),
     defaultValues: {
-      employee_id: undefined,
+      employee_id: '',
       leave_type_id: undefined,
       start_date: undefined,
       end_date: undefined,
