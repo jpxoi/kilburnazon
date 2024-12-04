@@ -1,15 +1,11 @@
 import { columns } from "@/components/custom/payroll-table/columns";
-import { DataTable } from "@/components/custom/payroll-table/data-table";
-import { fetchPayrollEntries, fetchPayrollSummary } from "@/lib/fetchers";
 import { Suspense } from "react";
 import PayrollSummaryCards from "@/components/custom/payroll-summary-cards";
 import PayrollSummaryCardsSkeleton from "@/components/skeleton/payroll-summary-cards-skeleton";
 import { PayrollReportPeriod } from "@/interfaces";
 import PayrollPeriodSelect from "@/components/custom/payroll-period-select";
-import SaveToPDFButton from "@/components/custom/save-to-pdf";
-import SaveToCSVButton from "@/components/custom/save-to-csv";
 import PayrollExportButtons from "@/components/custom/payroll-export-buttons";
-import PayrollReportTableContainer from "@/components/payroll-report-table-container";
+import PayrollReportTableContainer from "@/components/custom/payroll-report-table-container";
 import { DataTableSkeleton } from "@/components/skeleton/data-table-skeleton";
 
 export default async function PayrollListPage({
