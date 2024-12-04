@@ -114,6 +114,17 @@ export interface LeaveRequestAPIResponse extends LeaveRequestModel {
   total_days: number;
 }
 
+export interface AbsenteeismReportModel {
+  period: string | number;
+  department_id: number;
+  department_name: string;
+  leave_reason: string;
+  total_requests: number;
+  total_absent_days: number;
+  avg_absent_days: number;
+  absence_rate: number;
+}
+
 export interface PayrollPeriodModel {
   id: UUID;
   start_date: string;
@@ -155,6 +166,13 @@ export interface PayrollSummaryModel {
 export interface PayrollReportAPIResponse {
   data: PayrollEntryModel[];
   summary: PayrollSummaryModel;
+}
+
+export interface DashboardStatsAPIResponse {
+  totalEmployees: number;
+  totalDepartments: number;
+  totalPositions: number;
+  estimatedMonthlyPayroll: number;
 }
 
 export type PayrollReportPeriod =

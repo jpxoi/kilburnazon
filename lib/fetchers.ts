@@ -1,5 +1,7 @@
 import {
+  AbsenteeismReportModel,
   BirthdayAPIResponse,
+  DashboardStatsAPIResponse,
   DepartmentModel,
   EmployeeAPIResponse,
   JobRoleModel,
@@ -181,6 +183,40 @@ export async function fetchPayrollSummary(
   const res = await fetchPayrollReport(start_date, end_date, department_id);
 
   return res.summary as PayrollSummaryModel;
+}
+
+export async function fetchAbsenteeismReport(
+  period: "monthly" | "yearly" | "quarterly" | null
+) {
+  const query = new URLSearchParams({
+    period: period || "",
+  });
+  const res = await fetch(
+    `http://localhost:8000/api/absenteeism-report?${query.toString()}`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  return (await res.json()) as AbsenteeismReportModel[];
+}
+
+export async function fetchDashboardStats() {
+  const res = await fetch("http://localhost:8000/api/dashboard", {
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message);
+  }
+
+  return (await res.json()) as DashboardStatsAPIResponse;
 }
 
 export function getPayrollPeriod(period: PayrollReportPeriod) {
