@@ -1,6 +1,6 @@
 import { columns } from "@/components/custom/logs-table/columns";
 import { DataTableSkeleton } from "@/components/skeleton/data-table-skeleton";
-import TerminationLogsTableContainer from "@/components/termination-logs-table-container";
+import TerminationLogsTableContainer from "@/components/custom/termination-logs-table-container";
 import { Suspense } from "react";
 
 export default function LogTerminationPage() {
