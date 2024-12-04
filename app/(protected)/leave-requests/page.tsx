@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import LeaveRequestsTableContainer from "@/components/leave-requests-table-container";
+import LeaveRequestsTableContainer from "@/components/custom/leave-requests-table-container";
 import { DataTableSkeleton } from "@/components/skeleton/data-table-skeleton";
 import { columns } from "@/components/custom/leave-requests-table/columns";
 
