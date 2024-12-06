@@ -121,14 +121,18 @@ export async function updateEmployee(
   return { error: data.error.errorInfo[2] };
 }
 
-export async function terminateEmployee(id: string) {
+export async function terminateEmployee(id: string, terminated_by: string) {
   const res = await fetch(
     `http://localhost:8000/api/employee/${id}/terminate`,
     {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        termination_reason: "Has left the company for a different job",
+        terminated_by,
+      }),
     }
   );
   const data = await res.json();

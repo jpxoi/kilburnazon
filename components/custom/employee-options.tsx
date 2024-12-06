@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { promoteEmployee } from "@/actions/employee";
+import { promoteEmployee, terminateEmployee } from "@/actions/employee";
 
 export default function EmployeeOptions({
   id,
@@ -69,10 +69,33 @@ export default function EmployeeOptions({
   };
 
   const terminate = (id: number) => {
-    toast({
-      title: `Terminating employee ${id}`,
-      description:
-        "We are terminating the employee and removing them from the system.",
+    startTransition(() => {
+      terminateEmployee(id.toString(), "jpxoi@icloud.com")
+        .then((data) => {
+          if (!data) {
+            throw new Error("There was an error terminating the employee.");
+          }
+
+          if (data.error) {
+            throw new Error(data.error);
+          }
+
+          if (data.success) {
+            toast({
+              variant: "success",
+              title: `Terminated employee ${id}`,
+              description: `Employee has been terminated successfully.`,
+            });
+            router.refresh();
+          }
+        })
+        .catch((err) => {
+          toast({
+            variant: "destructive",
+            title: "Failed to terminate employee",
+            description: err.message,
+          });
+        });
     });
   };
 

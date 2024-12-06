@@ -40,8 +40,8 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "../ui/scroll-area";
 
-const eighteenYearsAgo = new Date(
-  new Date().getFullYear() - 18,
+const fifteenYearsAgo = new Date(
+  new Date().getFullYear() - 15,
   new Date().getMonth(),
   new Date().getDate()
 );
@@ -175,12 +175,12 @@ export default function NewEmployeeForm({
                           onSelect={field.onChange}
                           disabled={(date) => {
                             return (
-                              date > eighteenYearsAgo ||
+                              date > fifteenYearsAgo ||
                               date < new Date("1900-01-01")
                             );
                           }}
                           fromYear={1900}
-                          toDate={eighteenYearsAgo}
+                          toDate={fifteenYearsAgo}
                           initialFocus
                         />
                       </PopoverContent>
