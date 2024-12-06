@@ -144,7 +144,7 @@ export async function terminateEmployee(id: string, terminated_by: string) {
     };
   }
 
-  if (data.employee) {
+  if (data.termination) {
     return { success: true };
   }
 
