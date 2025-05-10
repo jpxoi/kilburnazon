@@ -1,6 +1,6 @@
 # Kilburnazon
 
-Kilburnazon is a full-stack e-commerce simulation platform, featuring a modern web frontend, a robust Laravel backend, and a comprehensive SQL database schema. This monorepo is organized for easy local development and deployment.
+Kilburnazon is a full-stack employee management simulation platform, featuring a modern web frontend, a robust Laravel backend, and a comprehensive SQL database schema. This monorepo is organized for easy local development and deployment.
 
 ## Project Structure
 
