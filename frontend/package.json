@@ -32,7 +32,7 @@
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
     "lucide-react": "^0.460.0",
-    "next": "15.0.3",
+    "next": "15.5.7",
     "papaparse": "^5.4.1",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-day-picker": "^8.10.1",
